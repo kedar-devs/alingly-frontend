@@ -1,17 +1,13 @@
-import { useState } from 'react'
+
 import './App.css'
+import { AppRoutes } from './routes/routes'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-         <h1 className="text-3xl font-bold underline">
-          Hello world!
-        </h1>
-        <button className="bg-blue-500 text-white p-2 rounded-md cursor-pointer" onClick={() => setCount(count + 1)}>Click me</button>
-        <p>Count: {count}</p>
-    </>
+    <div className="flex flex-col items-center justify-center w-screen h-screen bg-[#000] text-white">
+         <AppRoutes />
+    </div>
   )
 }
 

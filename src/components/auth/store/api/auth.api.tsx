@@ -35,7 +35,7 @@ export const authKeys = {
 const authApi = {
     register: async(params:User): Promise<AuthResponse> => {
       const result= await customBaseQuery<AuthResponse>({
-        url: '/auth/register',
+        url: '/user/register',
         method: 'post',
         body: params,
       })
@@ -43,7 +43,7 @@ const authApi = {
     },
     login: async(params:LoginParams): Promise<AuthResponse> => {
       const result= await customBaseQuery<AuthResponse>({
-        url: '/auth/login',
+        url: '/user/login',
         method: 'post',
         body: params,
       })
@@ -51,14 +51,14 @@ const authApi = {
     },
     getCurrentUser: async(): Promise<User> => {
         const result = await customBaseQuery<User>({
-            url: '/auth/me',
+            url: '/user/get',
             method: 'get',
         })
         return result.data;
     },
     logout: async(): Promise<void> => {
         await customBaseQuery<void>({
-            url: '/auth/logout',
+            url: '/user/logout',
             method: 'post',
         })
         localStorage.removeItem('token');
