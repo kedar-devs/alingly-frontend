@@ -21,7 +21,7 @@ function Login() {
       <div className=" w-64 border rounded-md p-4 flex flex-col items-center gap-4 text-[#5bd787]">
 
         <h1 className="text-4xl font-bold">Log-in</h1>
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleLogin}>
           <div className="flex flex-col gap-2">
             <label className="text-sm">Email</label>
             <input type="email" name="email" value={email} onChange={(e) => {
@@ -45,7 +45,7 @@ function Login() {
             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
           
-          <button type="submit" className="bg-[#5bd787] text-black p-2 rounded-md cursor-pointer font-bold" disabled={isPending}>{isPending ? 'Signing in...' : 'Sign In'}</button>
+          <button type="submit" className="bg-[#5bd787] text-black p-2 rounded-md cursor-pointer font-bold" disabled={isPending} >{isPending ? 'Signing in...' : 'Sign In'}</button>
         </form>
       </div>
     </div>

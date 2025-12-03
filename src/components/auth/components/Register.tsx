@@ -22,7 +22,7 @@ function Register() {
     <div className="flex flex-col items-center justify-center w-full h-full">
       <div className=" w-64 border rounded-md p-4 flex flex-col items-center gap-4 text-[#5bd787]">
         <h1 className="text-4xl font-bold">Register</h1>
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleRegister}>
           <div className="flex flex-col gap-2">
             <label className="text-sm">Name</label>
             <input type="text" name="name" value={name} onChange={(e) => {setName(e.target.value)
