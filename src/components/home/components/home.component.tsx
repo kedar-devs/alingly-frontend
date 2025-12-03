@@ -1,4 +1,3 @@
-
 function HomeComponent() {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
@@ -7,6 +6,7 @@ function HomeComponent() {
                 <h1 className="text-6xl font-bold ">Alignly</h1>
                 <p className="text-sm">Alignly is a platform for aligning your business with your customers.</p>
                 <button className="bg-[#5bd787] text-black p-2 rounded-md cursor-pointer font-bold">Get Started</button>
+            
             </div>
             <div className="flex flex-col items-center justify-center w-full h-full">
                 <img src="/home-logo.jpg" alt="Alignly" className="w-full h-full object-cover" />
