@@ -37,8 +37,10 @@ export const customBaseQuery = async <T = unknown>(
 
   const fullUrl = `${API_BASE_URL}${url}${queryString}`;
 
+  const isFormData = body instanceof FormData;
+
   const defaultHeaders: Record<string, string> = {
-    'Content-Type': 'application/json',
+      'Content-Type': isFormData ? 'multipart/form-data' : 'application/json',
     ...headers,
   };
 
@@ -52,7 +54,7 @@ export const customBaseQuery = async <T = unknown>(
   };
 
   if (body && method !== 'get') {
-    config.body = JSON.stringify(body);
+    config.body = isFormData ? body : JSON.stringify(body);
   }
 
   try {
