@@ -3,6 +3,7 @@ import { useCreateOrganizationMutation } from "../store/api/organization.api"
 import type { ValidationErrors } from "../../auth/form-validation/validation"
 import { validateForm, formValidationRules, isFormValid } from "../../auth/form-validation/validation"
 import { CiImageOn } from "react-icons/ci"
+import Toaster from "../../../utils/toaster/toaster"
 
 function createOrganization() {
   const { mutate: createOrganization, isPending } = useCreateOrganizationMutation()
@@ -10,6 +11,7 @@ function createOrganization() {
   const [acronym, setAcronym] = useState('')
   const [logo, setLogo] = useState<File | null>(null)
   const [errors, setErrors] = useState<ValidationErrors>({})
+  const [toaster, setToaster] = useState<{message: string, type: 'success' | 'error' | 'custom'}>({message: '', type: 'success'})
   const logoInputRef = useRef<HTMLInputElement>(null)
 
   const handleLogoChange = (file: File | undefined) => {
@@ -42,8 +44,20 @@ function createOrganization() {
     if(logo) {
       formData.append('logo', logo)
     }
-    createOrganization(formData)
-    
+    createOrganization(formData,{
+      onSuccess: () => {
+        setToaster({message: 'Organization created successfully', type: 'success'})
+      },
+      onError: (error: any) => {
+        // The API error type may not have 'data', so check if it's available.
+        const errorMessage =
+          error?.response?.data?.detail ||
+          error?.data?.detail ||
+          error?.message ||
+          'An error occurred while creating the organization';
+        setToaster({ message: errorMessage, type: 'error' });
+      }
+      })
 
   }
   return (
@@ -80,6 +94,7 @@ function createOrganization() {
           </div>
         </form>
       </div>
+      <Toaster message={toaster.message} type={toaster.type} />
     </div>
   )
 }
