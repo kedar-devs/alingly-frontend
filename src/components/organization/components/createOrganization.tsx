@@ -1,0 +1,74 @@
+import { useState,useRef } from "react"
+import { useCreateOrganizationMutation } from "../store/api/organization.api"
+import type { ValidationErrors } from "../../auth/form-validation/validation"
+import { validateForm, formValidationRules, isFormValid } from "../../auth/form-validation/validation"
+import { CiImageOn } from "react-icons/ci"
+
+function createOrganization() {
+  const { mutate: createOrganization, isPending } = useCreateOrganizationMutation()
+  const [name, setName] = useState('')
+  const [acronym, setAcronym] = useState('')
+  const [logo, setLogo] = useState<File | null>(null)
+  const [errors, setErrors] = useState<ValidationErrors>({})
+  const logoInputRef = useRef<HTMLInputElement>(null)
+
+  const handleLogoChange = (file: File | undefined) => {
+    if (file) {
+      setLogo(file)
+    }
+  }
+  const handleCreateOrganization = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const validationErrors = validateForm({ name }, formValidationRules.createOrganization)
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+    if (logo) {
+      const formData = new FormData()
+      formData.append('name', name)
+      formData.append('acronym', acronym)
+      formData.append('logo', logo)
+      createOrganization(formData)
+    }
+
+  }
+  return (
+    <div className="flex flex-col items-center justify-center w-full h-full">
+      <div className=" w-1/3 h-2/3 border rounded-md p-4 flex flex-col items-center gap-4 text-[#5bd787]">
+        <h1 className="text-4xl font-bold">Create Organization</h1>
+        <form className="flex flex-col gap-4 w-full justify-between h-full" onSubmit={handleCreateOrganization}>
+          <div className="flex flex-col gap-5 w-full h-full">
+            <div className="flex flex-col gap-2 h-1/6">
+            <label className="text-lg">Name :</label>
+            <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} className="border rounded-md p-2 " />
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+            </div>
+            <div className="flex flex-col gap-2 h-1/6">
+            <label className="text-lg">Acronym :</label>
+            <input type="text" name="acronym" value={acronym} onChange={(e) => setAcronym(e.target.value)} className="border rounded-md p-2" />
+            {errors.acronym && <p className="text-red-500 text-sm">{errors.acronym}</p>}
+            </div>
+            <div className="flex flex-col gap-2 h-3/6">
+            <label className="text-lg">Logo :</label>
+            <div className="flex flex-col gap-2 justify-center items-center w-full h-full border rounded-md p-2">
+            {logo?<div className="w-full h-full gap-2 flex flex-col">
+              <img src={URL.createObjectURL(logo)} alt="Logo" className="w-full h-5/6 object-cover cursor-pointer" onClick={() => logoInputRef.current?.click()} />
+              <button onClick={()=>setLogo(null)} className=" text-white bg-red-500 p-2 rounded-md cursor-pointer font-bold w-full">Remove</button>
+              </div>:<div className="flex flex-col gap-2 justify-center items-center w-full h-full cursor-pointer" onClick={() => logoInputRef.current?.click()}>
+                <input type="file" accept="image/*" name="logo" onChange={(e) => handleLogoChange(e.target.files?.[0])} className="border rounded-md p-2 hidden" ref={logoInputRef} />
+                <p className="text-md">Upload Logo</p>
+                <CiImageOn className="text-2xl w-12 h-12"/>
+                </div>
+            }
+            </div>
+          </div>
+          <button type="submit" className="bg-[#5bd787] text-black p-2 rounded-md cursor-pointer font-bold" disabled={isPending}>{isPending ? 'Creating organization...' : 'Create Organization'}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+export default createOrganization

@@ -36,6 +36,7 @@ export type ValidationRule = {
         return null;
       },
     },
+    
     email: {
       required: true,
       pattern: patterns.email,
@@ -152,5 +153,6 @@ export type ValidationRule = {
   export const formValidationRules = {
     login: createValidationRules(['email', 'password']),
     register: createValidationRules(['name', 'email', 'password']),
+    createOrganization: createValidationRules(['name']),
   };
   
