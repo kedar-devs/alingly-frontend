@@ -14,6 +14,18 @@ function createOrganization() {
 
   const handleLogoChange = (file: File | undefined) => {
     if (file) {
+      if(file.size > 1024 * 1024 * 5) {
+        setErrors({ logo: 'Logo must be less than 5MB' })
+        return
+      }
+      if(file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif' && file.type !== 'image/webp') {
+        setErrors({ logo: 'Logo must be a valid image' })
+        return
+      }
+      if(file.size > 1024 * 1024 * 5) {
+        setErrors({ logo: 'Logo must be less than 5MB' })
+        return
+      }
       setLogo(file)
     }
   }
@@ -24,13 +36,14 @@ function createOrganization() {
       setErrors(validationErrors)
       return
     }
-    if (logo) {
-      const formData = new FormData()
-      formData.append('name', name)
-      formData.append('acronym', acronym)
+    const formData = new FormData()
+    formData.append('name', name)
+    formData.append('acronym', acronym)
+    if(logo) {
       formData.append('logo', logo)
-      createOrganization(formData)
     }
+    createOrganization(formData)
+    
 
   }
   return (

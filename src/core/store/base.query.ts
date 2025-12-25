@@ -40,7 +40,7 @@ export const customBaseQuery = async <T = unknown>(
   const isFormData = body instanceof FormData;
 
   const defaultHeaders: Record<string, string> = {
-      'Content-Type': isFormData ? 'multipart/form-data' : 'application/json',
+    ...(isFormData ?{}:{'Content-Type': 'application/json'}),
     ...headers,
   };
 

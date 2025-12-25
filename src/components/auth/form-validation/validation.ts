@@ -24,6 +24,9 @@ export type ValidationRule = {
   
   // Default validation rules
   export const defaultRules: ValidationRules = {
+    logo: {
+      required: false,
+    },
     name: {
       required: true,
       minLength: 2,
@@ -153,6 +156,6 @@ export type ValidationRule = {
   export const formValidationRules = {
     login: createValidationRules(['email', 'password']),
     register: createValidationRules(['name', 'email', 'password']),
-    createOrganization: createValidationRules(['name']),
+    createOrganization: createValidationRules(['name', 'logo']),
   };
   
