@@ -1,5 +1,5 @@
 import { useState,useRef } from "react"
-import { useCreateOrganizationMutation } from "../store/api/organization.api"
+import { useCreateOrganizationMutation, useGetUploadUrlMutation } from "../store/api/organization.api"
 import type { ValidationErrors } from "../../auth/form-validation/validation"
 import { validateForm, formValidationRules, isFormValid } from "../../auth/form-validation/validation"
 import { CiImageOn } from "react-icons/ci"
@@ -7,9 +7,11 @@ import Toaster from "../../../utils/toaster/toaster"
 
 function createOrganization() {
   const { mutate: createOrganization, isPending } = useCreateOrganizationMutation()
+  const { mutate: getUploadUrl, isPending: isGetUploadUrlPending } = useGetUploadUrlMutation()
   const [name, setName] = useState('')
   const [acronym, setAcronym] = useState('')
   const [logo, setLogo] = useState<File | null>(null)
+  const [uploadUrl, setUploadUrl] = useState<string | null>(null)
   const [errors, setErrors] = useState<ValidationErrors>({})
   const [toaster, setToaster] = useState<{message: string, type: 'success' | 'error' | 'custom'}>({message: '', type: 'success'})
   const logoInputRef = useRef<HTMLInputElement>(null)
@@ -31,6 +33,19 @@ function createOrganization() {
       setLogo(file)
     }
   }
+
+  const handleGetUploadUrl = () => {
+    getUploadUrl({
+      file_name: logo?.name || '',
+      content_type: logo?.type || '',
+      file_size: logo?.size || 0,
+    },{
+      onSuccess: (data) => {
+        setUploadUrl(data.upload_url)
+      }
+    })
+  }
+
   const handleCreateOrganization = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const validationErrors = validateForm({ name }, formValidationRules.createOrganization)

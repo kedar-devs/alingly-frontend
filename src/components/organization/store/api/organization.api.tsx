@@ -6,7 +6,47 @@ import { useOrganizationStore } from "../organization.store";
 interface Organization {
     name: string;
 }
+interface PresignedUrlRequest {
+    file_name: string;
+    content_type: string;
+    file_size?: number;
+}
+
+interface PresignedUrlResponse {
+    upload_url: string;
+    fields: Record<string, string>;
+    file_key: string;
+    file_url: string;
+}
+
 const organizationApi = {
+    getUploadUrl: async (params: PresignedUrlRequest): Promise<PresignedUrlResponse> => {
+        const result = await customBaseQuery<PresignedUrlResponse>({
+            url: '/organization/get-upload-url',
+            method: 'post',
+            body: params,
+        });
+        return result.data;
+    },
+    
+    uploadToS3: async (presignedData: PresignedUrlResponse, file: File): Promise<string> => {
+        const formData = new FormData();
+        Object.entries(presignedData.fields).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+        
+        formData.append('file', file);
+        
+        const response = await fetch(presignedData.upload_url, {
+            method: 'POST',
+            body: formData,
+        });
+        
+        if (!response.ok) {
+            throw new Error(`S3 upload failed: ${response.statusText}`);
+        }
+        return presignedData.file_url;
+    },
     getOrganizations: async(): Promise<Organization[]> => {
         const result = await customBaseQuery<Organization[]>({
             url: '/organization/get',
@@ -93,6 +133,15 @@ export const useDeleteOrganizationMutation=()=>{
         mutationFn: organizationApi.deleteOrganization,
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['organizations'] });
+        },
+    })
+}
+
+export const useGetUploadUrlMutation=()=>{
+    return useMutation({
+        mutationFn: organizationApi.getUploadUrl,
+        onSuccess: (data) => {
+            return data;
         },
     })
 }
