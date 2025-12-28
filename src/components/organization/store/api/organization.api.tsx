@@ -19,10 +19,10 @@ interface PresignedUrlResponse {
     file_url: string;
 }
 
-const organizationApi = {
+export const organizationApi = {
     getUploadUrl: async (params: PresignedUrlRequest): Promise<PresignedUrlResponse> => {
         const result = await customBaseQuery<PresignedUrlResponse>({
-            url: '/organization/get-upload-url',
+            url: '/file_upload/get-upload-url',
             method: 'post',
             body: params,
         });

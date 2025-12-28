@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import toast,{Toaster as ReactHotToaster} from 'react-hot-toast'
 
-function Toaster({message, type}: {message: string|React.ReactNode, type: 'success' | 'error' | 'custom'}) {
+function Toaster({message, type,count}: {message: string|React.ReactNode, type: 'success' | 'error' | 'custom',count: number}) {
     useEffect(() => {
         if(type === 'success' && typeof message === 'string') {
             toast.success(message)
@@ -14,7 +14,7 @@ function Toaster({message, type}: {message: string|React.ReactNode, type: 'succe
                 </div>
             ))
         }
-    }, [message, type])
+    }, [message, type,count])
   return (
     <ReactHotToaster />
   )
