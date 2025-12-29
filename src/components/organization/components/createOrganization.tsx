@@ -46,6 +46,7 @@ function createOrganization() {
       onSuccess: async (data) => {
         try{
         const uploadedUrl=await organizationApi.uploadToS3(data, logo)
+        console.log(uploadedUrl)
         setUploadUrl(uploadedUrl)
         setToaster({message: 'Upload URL generated successfully', type: 'success'})
         setFailedCount(0)
