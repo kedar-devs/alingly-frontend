@@ -32,7 +32,7 @@ export const authKeys = {
 }
 
 const authApi = {
-    register: async(params:User): Promise<AuthResponse> => {
+    register: async(params:User & {organization_id: string}): Promise<AuthResponse> => {
       const result= await customBaseQuery<AuthResponse>({
         url: '/user/register',
         method: 'post',

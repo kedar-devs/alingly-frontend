@@ -4,7 +4,12 @@ import { useOrganizationStore } from "../organization.store";
 
 
 interface Organization {
+    id: string;
     name: string;
+    logo: string;
+    acronym: string;
+    has_logo: boolean;
+    has_acronym: boolean;
 }
 interface PresignedUrlRequest {
     file_name: string;
@@ -49,7 +54,7 @@ export const organizationApi = {
     },
     getOrganizations: async(): Promise<Organization[]> => {
         const result = await customBaseQuery<Organization[]>({
-            url: '/organization/get',
+            url: '/organization/get_all',
             method: 'get',
         })
         return result.data;
