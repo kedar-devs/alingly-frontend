@@ -2,9 +2,14 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface User {
+    id: string;
+    organization_id: string;
     name: string;
     email: string;
     password: string;
+    // role: string;
+    created_at: string;
+    updated_at: string;
 }
 
 interface AuthState {
