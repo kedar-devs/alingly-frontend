@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useRegisterUserMutation } from "../store/api/auth.api"
 import { useGetAllOrganizationsQuery } from "../../organization/store/api/organization.api"
 import { formValidationRules, isFormValid ,validateForm, type ValidationErrors} from "../form-validation/validation"
@@ -11,6 +12,7 @@ function Register() {
   const [password, setPassword] = useState('')
   const [organizationId, setOrganizationId] = useState('')
   const [errors, setErrors] = useState<ValidationErrors>({})
+  const navigate = useNavigate()
   const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const validationErrors = validateForm({ name, email, password }, formValidationRules.register)
@@ -20,6 +22,7 @@ function Register() {
     }
     setErrors({})
     registerUser({ name, email, password, organization_id: organizationId })
+    navigate('')
   }
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">

@@ -157,5 +157,6 @@ export type ValidationRule = {
     login: createValidationRules(['email', 'password']),
     register: createValidationRules(['name', 'email', 'password']),
     createOrganization: createValidationRules(['name', 'logo']),
+    createProject: createValidationRules(['name', 'description']),
   };
   
