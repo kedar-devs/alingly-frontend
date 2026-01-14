@@ -15,3 +15,9 @@ export type ProjectCreate={
     organization_id: string;
     user_id: string;
 }
+
+export type ProjectCard={
+    project_id:string,
+    name:string,
+    description:string,
+}
