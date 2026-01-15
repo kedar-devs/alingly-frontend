@@ -2,7 +2,7 @@ import AppPaths from "../../../routes/routes.constant"
 import type { ProjectCard } from "../interface/project.interface"
 import { useNavigate } from "react-router-dom"
 
-function ProjectDataCard({ project_id, name, description }: ProjectCard) {
+function ProjectDataCard({ projectCard }: { projectCard: ProjectCard }) {
   const navigator=useNavigate()
   const navigateToProject=(id:string)=>{
     navigator(AppPaths.LOGIN)
@@ -15,16 +15,16 @@ function ProjectDataCard({ project_id, name, description }: ProjectCard) {
             Project Name:
         </div>
         <div className="col-span-3">
-          {name}
+          {projectCard.name}
         </div>
         <div className=" col-span-2">
             Project Description:
         </div>
         <div className="col-span-3">
-          {description}
+          {projectCard.description}
         </div>
         <button className="w-2/3 " onClick={()=>{
-          navigateToProject(project_id)
+          navigateToProject(projectCard.project_id)
         }
         }>
           Visit

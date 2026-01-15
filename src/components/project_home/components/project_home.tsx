@@ -31,7 +31,7 @@ function ProjectHome() {
             <div className=" grid grid-cols-4 gap-5">
             {projectCards.map((project) => (
                 <div key={project.project_id} className="flex items-center justify-center w-full h-full" onClick={() => navigate(`/project/${project.project_id}`)}>
-                    <ProjectDataCard project_id={project.project_id} name={project.name} description={project.description} />
+                    <ProjectDataCard projectCard={project} />
                 </div>
             ))}
             </div>
