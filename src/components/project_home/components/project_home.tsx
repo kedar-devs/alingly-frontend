@@ -24,6 +24,9 @@ function ProjectHome() {
         }
         setProjectLoading(false)
     }, [projects])
+    const navigateToProject = (id: string) => {
+        navigate(`/project/${id}`)
+    }
   return (
     <div className=" w-full h-full">
         <div className=" w-full h-full flex flex-col items-center justify-center">
@@ -34,6 +37,17 @@ function ProjectHome() {
                     <ProjectDataCard projectCard={project} />
                 </div>
             ))}
+            {projectLoading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
+            {error && <div className="flex items-center justify-center w-full h-full">Error: {error}</div>}
+            <div className="w-96 h-96 border rounded-sm border-[#5bd787] text-[#5bd787] flex justify-center items-center p-5">
+                <img src="/project_main.jpg" alt="Project Image" className=" w-2/3" />
+                <button className="w-2/3 " onClick={()=>{
+                    navigateToProject('0')
+                }
+                }>
+                    Create Project
+                </button>
+                </div>
             </div>
         </div>
     </div>
