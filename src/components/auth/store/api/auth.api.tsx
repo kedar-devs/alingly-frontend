@@ -4,9 +4,19 @@ import { customBaseQuery } from "../../../../core/store/base.query";
 import { useAuthStore } from "../auth.store";
 
 interface User {
+    id: string;
+    organization_id: string;
+    created_at: string;
+    updated_at: string;
     name: string;
     email: string;
     password: string;
+}
+interface UserCreate {
+    name: string;
+    email: string;
+    password: string;
+    organization_id: string;
 }
 interface LoginParams {
     email: string;
@@ -32,7 +42,7 @@ export const authKeys = {
 }
 
 const authApi = {
-    register: async(params:User & {organization_id: string}): Promise<AuthResponse> => {
+    register: async(params:UserCreate): Promise<AuthResponse> => {
       const result= await customBaseQuery<AuthResponse>({
         url: '/user/register',
         method: 'post',

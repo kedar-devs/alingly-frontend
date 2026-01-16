@@ -1,11 +1,17 @@
 import { useState } from "react"
+import { useAuthStore } from "../../auth/store/auth.store"
+import { useCreateProjectMutation } from "../store/api/project.api"
 import { validateForm, type ValidationErrors, formValidationRules, isFormValid } from "../../auth/form-validation/validation"
 
 function CreateProject() {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [errors, setErrors] = useState<ValidationErrors>({})
-
+    const { user } = useAuthStore()
+    const { mutate: createProject, isPending } = useCreateProjectMutation()
+    if(!user) {
+      return <div className="flex items-center justify-center w-full h-full">You are not logged in</div>
+  }
     const handleCreateProject = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const validationErrors = validateForm({ name, description }, formValidationRules.createProject)
@@ -14,8 +20,18 @@ function CreateProject() {
             return
         }
         setErrors({})
+        createProject({ name, description, organization_id: user.organization_id, user_id: user.id },{
+            onSuccess: () => {
+                return <div className="flex items-center justify-center w-full h-full">Project created successfully</div>
+            },
+            onError: (error) => {
+                return <div className="flex items-center justify-center w-full h-full">Failed to create project</div>
+            }
+        })
+
     }
 
+      
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
       <div className=" w-1/3 h-2/3 border rounded-md p-4 flex flex-col items-center gap-4 text-[#5bd787]">
