@@ -2,12 +2,18 @@ import { useState } from "react"
 import { useAuthStore } from "../../auth/store/auth.store"
 import { useCreateProjectMutation } from "../store/api/project.api"
 import { validateForm, type ValidationErrors, formValidationRules, isFormValid } from "../../auth/form-validation/validation"
+import { useNavigate } from "react-router-dom"
+import AppPaths from "../../../routes/routes.constant"
+import Toaster from "../../../utils/toaster/toaster"
 
 function CreateProject() {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [errors, setErrors] = useState<ValidationErrors>({})
+    const [failedCount, setFailedCount] = useState<number>(0)
+    const [toaster, setToaster] = useState<{message: string, type: 'success' | 'error' | 'custom'}>({message: '', type: 'success'})
     const { user } = useAuthStore()
+    const navigate = useNavigate()
     const { mutate: createProject, isPending } = useCreateProjectMutation()
     if(!user) {
       return <div className="flex items-center justify-center w-full h-full">You are not logged in</div>
@@ -22,10 +28,16 @@ function CreateProject() {
         setErrors({})
         createProject({ name, description, organization_id: user.organization_id, user_id: user.id },{
             onSuccess: () => {
-                return <div className="flex items-center justify-center w-full h-full">Project created successfully</div>
+                navigate(AppPaths.PROJECT_HOME)
             },
             onError: (error) => {
-                return <div className="flex items-center justify-center w-full h-full">Failed to create project</div>
+                setFailedCount(failedCount + 1)
+                if(failedCount > 3) {
+                    setToaster({message: 'Failed to create project after 3 attempts', type: 'error'})
+                    return
+                }
+                setToaster({message: 'Failed to create project', type: 'error'})
+                setFailedCount(0)
             }
         })
 
@@ -49,6 +61,7 @@ function CreateProject() {
               {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
             </div>
             <button type="submit" className="bg-[#5bd787] text-black p-2 rounded-md cursor-pointer font-bold">Create Project</button>
+            <Toaster message={toaster.message} type={toaster.type} count={failedCount} />
           </div>
         </form>
       </div>

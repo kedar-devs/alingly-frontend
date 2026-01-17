@@ -6,6 +6,7 @@ const AppPaths = {
     CREATE_PROJECT: '/create-project',
     PROJECT_HOME: '/project-home',
     PROJECT_DETAILS: '/project-details',
+    REQUIREMENT_PAGE: '/requirement-page',
     CREATE_ORGANIZATION: '/create-organization',
     RESET_PASSWORD: '/reset-password',
     VERIFY_EMAIL: '/verify-email',
