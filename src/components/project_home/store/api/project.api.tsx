@@ -27,14 +27,14 @@ export const projectApi = {
     },
     getProjectsForUser: async (id: string) => {
         const result = await customBaseQuery<Project[]>({
-            url: `/project/get-projects-for-user/${id}`,
+            url: `/project/get_projects_for_user/${id}`,
             method: 'get',
         })
         return result.data;
     },
     getProjectsForOrganization: async (id: string) => {
         const result = await customBaseQuery<Project[]>({
-            url: `/project/get-projects-for-organization/${id}`,
+            url: `/project/get_projects_for_organization/${id}`,
             method: 'get',
         })
         return result.data;

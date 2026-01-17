@@ -1,16 +1,33 @@
-import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useState,useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import AppPaths from '../../routes/routes.constant'
+import { useLogoutUserMutation } from '../../components/auth/store/api/auth.api'
+import { useAuthStore } from '../../components/auth/store/auth.store'
+import { post_login_navigation, pre_login_navigation } from './navigator.constant'
+
 
 export function HeadbarComponent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [navigation, setNavigation] = useState<{name: string, path: string}[]>([])
+  const navigate = useNavigate()
   const location = useLocation()
+  const { clearAuth, user } = useAuthStore()
+  const { mutate: logoutUser, isPending } = useLogoutUserMutation()
+  const handleLogout = () => {
+    logoutUser()
+    clearAuth()
+    navigate(AppPaths.HOME)
+  }
 
-  const navigation = [
-    { name: 'Home', path: AppPaths.HOME },
-    { name: 'Login', path: AppPaths.LOGIN },
-    { name: 'Register', path: AppPaths.REGISTER },
-  ]
+  useEffect(() => {
+    if(user) {
+      setNavigation(post_login_navigation)
+    } else {
+      setNavigation(pre_login_navigation)
+    }
+  },[user])
+
+  
 
   const isActive = (path: string) => location.pathname === path
 
@@ -33,12 +50,18 @@ export function HeadbarComponent() {
               {navigation.map((item) => (
                 <Link
                   key={item.name}
-                  to={item.path}
+                  onClick={() => {
+                    if(item.name === 'Logout') {
+                      handleLogout()
+                    }
+                  }}
+                  to={item.path as string}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                    isActive(item.path)
+                    isActive(item.path as string)
                       ? 'bg-[#5bd787] text-black'
                       : 'text-gray-300 hover:text-[#5bd787] hover:bg-gray-800'
-                  }`}
+                  }`
+                }
                 >
                   {item.name}
                 </Link>
@@ -102,10 +125,10 @@ export function HeadbarComponent() {
           {navigation.map((item) => (
             <Link
               key={item.name}
-              to={item.path}
+              to={item.path as string}
               onClick={() => setIsMenuOpen(false)}
               className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-200 ${
-                isActive(item.path)
+                isActive(item.path as string)
                   ? 'bg-[#5bd787] text-black'
                   : 'text-gray-300 hover:text-[#5bd787] hover:bg-gray-800'
               }`}

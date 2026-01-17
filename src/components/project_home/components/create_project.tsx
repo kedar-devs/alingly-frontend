@@ -26,18 +26,18 @@ function CreateProject() {
             return
         }
         setErrors({})
+       console.log(user)
         createProject({ name, description, organization_id: user.organization_id, user_id: user.id },{
             onSuccess: () => {
                 navigate(AppPaths.PROJECT_HOME)
             },
             onError: (error) => {
-                setFailedCount(failedCount + 1)
+                setFailedCount(prev=>prev+1)
                 if(failedCount > 3) {
                     setToaster({message: 'Failed to create project after 3 attempts', type: 'error'})
                     return
                 }
                 setToaster({message: 'Failed to create project', type: 'error'})
-                setFailedCount(0)
             }
         })
 
@@ -46,18 +46,18 @@ function CreateProject() {
       
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
-      <div className=" w-1/3 h-2/3 border rounded-md p-4 flex flex-col items-center gap-4 text-[#5bd787]">
+      <div className=" w-1/3 border rounded-md p-4 flex flex-col items-center gap-4 text-[#5bd787]">
         <h1 className="text-4xl font-bold">Create Project</h1>
         <form className="flex flex-col gap-4 w-full justify-between h-full" onSubmit={handleCreateProject}>
           <div className="flex flex-col gap-5 w-full h-full">
-            <div className="flex flex-col gap-2 h-1/6">
+            <div className="flex flex-col gap-2">
               <label className="text-lg">Name :</label>
               <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} className="border rounded-md p-2 " />
               {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
             </div>
-            <div className="flex flex-col gap-2 h-1/6">
+            <div className="flex flex-col gap-2">
               <label className="text-lg">Description :</label>
-              <input type="text" name="description" value={description} onChange={(e) => setDescription(e.target.value)} className="border rounded-md p-2 " />
+              <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} className="border rounded-md p-2 " />
               {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
             </div>
             <button type="submit" className="bg-[#5bd787] text-black p-2 rounded-md cursor-pointer font-bold">Create Project</button>
