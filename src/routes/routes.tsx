@@ -8,6 +8,7 @@ import CreateOrganizationComponent from '../components/organization/components/c
 import CreateProjectComponent from '../components/project_home/components/create_project'
 import ProjectHomeComponent from '../components/project_home/components/project_home'
 import RequirementPage from '../components/requirments/components/requirment_page'
+import ProjectDashboard from '../components/project_home/components/project_dashboard'
 
 export const AppRoutes: React.FunctionComponent = () => {
     return (
@@ -20,6 +21,7 @@ export const AppRoutes: React.FunctionComponent = () => {
             <Route path={AppPaths.CREATE_ORGANIZATION} element={<CreateOrganizationComponent />} />
             <Route path={AppPaths.CREATE_PROJECT} element={<CreateProjectComponent />} />
             <Route path={AppPaths.PROJECT_HOME} element={<ProjectHomeComponent />} />
+            <Route path={AppPaths.PROJECT_DASHBOARD} element={<ProjectDashboard />} />
             <Route path={AppPaths.REQUIREMENT_PAGE} element={<RequirementPage />} />
         </Routes>
         </BrowserRouter>
