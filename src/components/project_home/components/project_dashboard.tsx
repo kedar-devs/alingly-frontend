@@ -1,10 +1,4 @@
-import { 
-  MdLayers, 
-  MdDashboard, 
-  MdFolder, 
-  MdError, 
-  MdTaskAlt, 
-  MdInsights, 
+import {  
   MdAddCircle,
   MdEdit,
   MdExpandMore,
@@ -12,9 +6,6 @@ import {
   MdNotifications,
   MdCalendarToday,
   MdFileDownload,
-  MdTrendingUp,
-  MdWarning,
-  MdVerified,
   MdStorage,
   MdSecurity,
   MdApi
@@ -23,28 +14,14 @@ import { useParams } from "react-router-dom";
 import { useGetDashboardDataQuery } from "../store/api/dashboard.api";
 import { useAuthStore } from "../../auth/store/auth.store";
 import { useNavigate } from "react-router-dom";
-import AppPaths from "../../../routes/routes.constant";
 import DashboardCard from "./dashboard/dashboard_card";
+import Sidebar from "../../../utils/sidebar/sidebar";
+import { defaultSidebarConfig } from "../../../utils/sidebar/sidebar.constant";
+import { calculateCircularProgress } from "../../../utils/formatters/number.format";
+import AppPaths from "../../../routes/routes.constant";
+import { formatRelativeTime } from "../../../utils/formatters/time.format";
+import ActionCard from "./dashboard/action_card";
 
-// Helper function to format numbers with commas
-const formatNumber = (num: number): string => {
-  return num.toLocaleString();
-};
-
-// Helper function to format percentage change
-const formatPercentageChange = (change: number): string => {
-  const sign = change >= 0 ? '+' : '';
-  return `${sign}${change.toFixed(0)}%`;
-};
-
-// Helper function to calculate circular progress
-const calculateCircularProgress = (percentage: number): { dashArray: number; dashOffset: number } => {
-  const radius = 45;
-  const circumference = 2 * Math.PI * radius;
-  const dashArray = circumference;
-  const dashOffset = circumference - (percentage / 100) * circumference;
-  return { dashArray, dashOffset };
-};
 
 // Helper function to get status color
 const getStatusColor = (status: 'Aligned' | 'Needs Attention' | 'At Risk'): string => {
@@ -85,11 +62,6 @@ const getIconComponent = (iconName?: string) => {
   return iconMap[iconName || ''] || MdStorage;
 };
 
-// Helper function to format relative time
-const formatRelativeTime = (timestamp: string): string => {
-  // This is a simple implementation - you might want to use a library like date-fns
-  return timestamp; // For now, return as-is. API should provide formatted time
-};
 
 function ProjectDashboard() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -115,54 +87,22 @@ function ProjectDashboard() {
 
   const { stats, alignmentScore, focusAreas, workstreams, pendingActions, recentActivities, projectName, misalignmentsCount } = dashboardData;
   const { dashArray, dashOffset } = calculateCircularProgress(alignmentScore.score);
+
+  const sidebarConfig = {
+    ...defaultSidebarConfig,
+    navItems: defaultSidebarConfig.navItems.map(item => ({
+      ...item,
+      isActive: item.id === "dashboard" // Set active based on current route
+    })),
+    footerAction: {
+      ...defaultSidebarConfig.footerAction!,
+      onClick: () => navigate(AppPaths.CREATE_PROJECT)
+    }
+  };
   return (
     <div className="flex h-screen overflow-hidden bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
       {/* Sidebar */}
-      <aside className="w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col bg-white dark:bg-slate-900 z-20">
-        <div className="p-6 flex items-center gap-3">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
-            <MdLayers className="text-xl" />
-          </div>
-          <div>
-            <h1 className="text-lg font-bold leading-none tracking-tight">Alignly</h1>
-            <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold mt-1">Enterprise SaaS</p>
-          </div>
-        </div>
-        <nav className="flex-1 px-4 py-4 space-y-1">
-          <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white font-medium" href="#">
-            <MdDashboard className="text-[22px]" />
-            <span className="text-sm">Dashboard</span>
-          </a>
-          <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
-            <MdFolder className="text-[22px]" />
-            <span className="text-sm font-medium">Projects</span>
-          </a>
-          <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
-            <MdError className="text-[22px]" />
-            <span className="text-sm font-medium">Misalignments</span>
-            {misalignmentsCount > 0 && (
-              <span className="ml-auto bg-status-red/10 text-status-red text-[10px] font-bold px-1.5 py-0.5 rounded">{misalignmentsCount}</span>
-            )}
-          </a>
-          <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
-            <MdTaskAlt className="text-[22px]" />
-            <span className="text-sm font-medium">Approvals</span>
-          </a>
-          <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
-            <MdInsights className="text-[22px]" />
-            <span className="text-sm font-medium">Insights</span>
-          </a>
-        </nav>
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800">
-          <button 
-            onClick={() => navigate(AppPaths.CREATE_PROJECT)}
-            className="w-full bg-primary text-white py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95"
-          >
-            <MdAddCircle className="text-lg" />
-            New Project
-          </button>
-        </div>
-      </aside>
+      <Sidebar config={sidebarConfig} misalignmentsCount={misalignmentsCount} />
 
       {/* Main Content Wrapper */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -380,16 +320,7 @@ function ProjectDashboard() {
                         action.priority === 'medium' ? 'border-primary' :
                         'border-slate-300 dark:border-slate-600';
                       return (
-                        <div key={action.id} className={`p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border-l-4 ${borderColor}`}>
-                          <p className="text-xs font-bold leading-tight">{action.title}</p>
-                          <div className="mt-2 flex items-center gap-2">
-                            <div 
-                              className="w-5 h-5 rounded-full bg-cover bg-slate-200" 
-                              style={action.assignee.avatarUrl ? { backgroundImage: `url('${action.assignee.avatarUrl}')` } : {}}
-                            ></div>
-                            <span className="text-[10px] font-medium text-slate-400">{formatRelativeTime(action.dueDate)}</span>
-                          </div>
-                        </div>
+                        <ActionCard key={action.id} action={action} borderColor={borderColor} />
                       );
                     })
                   )}
