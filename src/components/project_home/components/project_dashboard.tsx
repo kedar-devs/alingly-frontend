@@ -18,38 +18,12 @@ import DashboardCard from "./dashboard/dashboard_card";
 import Sidebar from "../../../utils/sidebar/sidebar";
 import { defaultSidebarConfig } from "../../../utils/sidebar/sidebar.constant";
 import { calculateCircularProgress } from "../../../utils/formatters/number.format";
+import { getStatusColor, getProgressColor } from "../../../utils/formatters/color.format";
 import AppPaths from "../../../routes/routes.constant";
-import { formatRelativeTime } from "../../../utils/formatters/time.format";
 import ActionCard from "./dashboard/action_card";
+import ActivityCard from "./dashboard/activity_card";
 
 
-// Helper function to get status color
-const getStatusColor = (status: 'Aligned' | 'Needs Attention' | 'At Risk'): string => {
-  switch (status) {
-    case 'Aligned':
-      return 'bg-status-green/10 text-status-green';
-    case 'Needs Attention':
-      return 'bg-status-amber/10 text-status-amber';
-    case 'At Risk':
-      return 'bg-status-red/10 text-status-red';
-    default:
-      return 'bg-slate-100 text-slate-500';
-  }
-};
-
-// Helper function to get progress bar color
-const getProgressColor = (status: 'Aligned' | 'Needs Attention' | 'At Risk'): string => {
-  switch (status) {
-    case 'Aligned':
-      return 'bg-status-green';
-    case 'Needs Attention':
-      return 'bg-status-amber';
-    case 'At Risk':
-      return 'bg-status-red';
-    default:
-      return 'bg-slate-400';
-  }
-};
 
 // Helper function to get icon component
 const getIconComponent = (iconName?: string) => {
@@ -340,34 +314,8 @@ function ProjectDashboard() {
                     <div className="text-center text-slate-400 text-sm py-8">No recent activity</div>
                   ) : (
                     recentActivities.map((activity) => {
-                      const getActivityColor = () => {
-                        switch (activity.type) {
-                          case 'comment':
-                            return 'bg-primary';
-                          case 'milestone':
-                            return 'bg-status-green';
-                          case 'upload':
-                            return 'bg-slate-300';
-                          case 'update':
-                            return 'bg-status-amber';
-                          default:
-                            return 'bg-slate-300';
-                        }
-                      };
                       return (
-                        <div 
-                          key={activity.id} 
-                          className="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-[2px] before:h-full before:bg-slate-100 dark:before:bg-slate-800 last:before:hidden"
-                        >
-                          <div className={`absolute left-[-4px] top-1.5 w-2 h-2 rounded-full ${getActivityColor()} border-4 border-white dark:border-slate-900 ring-1 ring-${getActivityColor()}/20`}></div>
-                          <p className="text-xs">
-                            <span className="font-bold">{activity.user.name}</span> {activity.description}
-                            {activity.link && (
-                              <span className="text-primary font-medium italic underline decoration-primary/20 cursor-pointer"> {activity.link}</span>
-                            )}
-                          </p>
-                          <p className="text-[10px] text-slate-400 mt-1">{formatRelativeTime(activity.timestamp)}</p>
-                        </div>
+                        <ActivityCard key={activity.id} activity={activity} />
                       );
                     })
                   )}

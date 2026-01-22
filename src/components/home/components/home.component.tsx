@@ -1,6 +1,9 @@
+import { HeadbarComponent } from "../../../utils/navbar/headbar.component"
+
 function HomeComponent() {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
+      <HeadbarComponent />
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 w-full h-full">
             <div className="flex flex-col items-center justify-center w-full h-full text-[#5bd787] gap-4">
                 <h1 className="text-6xl font-bold ">Alignly</h1>
