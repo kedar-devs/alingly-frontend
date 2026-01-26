@@ -8,20 +8,22 @@ import CreateProjectComponent from '../components/project_home/components/create
 import ProjectHomeComponent from '../components/project_home/components/project_home'
 import RequirementPage from '../components/requirments/components/requirment_page'
 import ProjectDashboard from '../components/project_home/components/project_dashboard'
+import ProjectLayout from '../components/project_home/components/project_layout'
 
 export const AppRoutes: React.FunctionComponent = () => {
     return (
         <BrowserRouter>
-        
         <Routes>
             <Route path={AppPaths.HOME} element={<HomeComponent />} />
             <Route path={AppPaths.LOGIN} element={<LoginComponent />} />
             <Route path={AppPaths.REGISTER} element={<RegisterComponent />} />
             <Route path={AppPaths.CREATE_ORGANIZATION} element={<CreateOrganizationComponent />} />
-            <Route path={AppPaths.CREATE_PROJECT} element={<CreateProjectComponent />} />
-            <Route path={AppPaths.PROJECT_HOME} element={<ProjectHomeComponent />} />
-            <Route path={AppPaths.PROJECT_DASHBOARD} element={<ProjectDashboard />} />
-            <Route path={AppPaths.REQUIREMENT_PAGE} element={<RequirementPage />} />
+            <Route element={<ProjectLayout />}>
+                <Route path={AppPaths.CREATE_PROJECT} element={<CreateProjectComponent />} />
+                <Route path={AppPaths.PROJECT_HOME} element={<ProjectHomeComponent />} />
+                <Route path={AppPaths.PROJECT_DASHBOARD} element={<ProjectDashboard />} />
+                <Route path={AppPaths.REQUIREMENT_PAGE} element={<RequirementPage />} />
+            </Route>
         </Routes>
         </BrowserRouter>
     )

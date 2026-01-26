@@ -1,5 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
+import { MdMenu, MdClose } from "react-icons/md";
 import type { SidebarConfig } from "./sidebar.constant";
+import { useSidebarStore } from "./sidebar.store";
+
 
 interface SidebarProps {
   config: SidebarConfig;
@@ -8,6 +11,8 @@ interface SidebarProps {
 
 export default function Sidebar({ config, misalignmentsCount = 0 }: SidebarProps) {
   const location = useLocation();
+
+  const { isOpen, toggle } = useSidebarStore();
 
   const isActive = (path?: string, itemId?: string) => {
     if (path && path !== "#") {
@@ -18,11 +23,76 @@ export default function Sidebar({ config, misalignmentsCount = 0 }: SidebarProps
   };
 
   const LogoIcon = config.logo.icon;
-
+  if(!isOpen) {
   return (
-    <aside className="w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col bg-white dark:bg-slate-900 z-20">
-      
+    <aside className="w-16 border-r border-slate-200 dark:border-slate-800 flex flex-col bg-white dark:bg-slate-900 z-20 transition-all duration-300">
+        <div className="p-4 flex items-center justify-center">
+          <button
+            onClick={toggle}
+            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <MdMenu className="text-xl text-slate-600 dark:text-slate-400" />
+          </button>
+        </div>
+        <nav className="flex-1 px-2 py-4 space-y-1">
+          {config.navItems.map((item) => {
+            const IconComponent = item.icon;
+            const active = isActive(item.path, item.id);
+            const badgeCount = item.id === "misalignments" ? misalignmentsCount : item.badge;
+
+            const className = `w-full flex items-center justify-center p-2.5 rounded-lg transition-colors relative ${
+              active
+                ? "bg-primary text-white"
+                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+            }`;
+
+            const content = (
+              <>
+                <IconComponent className="text-[22px]" />
+                {badgeCount !== undefined && Number(badgeCount) > 0 && (
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-status-red rounded-full"></span>
+                )}
+              </>
+            );
+
+            if (item.path && item.path !== "#") {
+              return (
+                <Link key={item.id} to={item.path} className={className} title={item.label}>
+                  {content}
+                </Link>
+              );
+            }
+
+            return (
+              <button key={item.id} onClick={item.onClick} className={className} title={item.label}>
+                {content}
+              </button>
+            );
+          })}
+        </nav>
+        {config.footerAction && (
+          <div className="p-2 border-t border-slate-200 dark:border-slate-800">
+            <button
+              onClick={config.footerAction.onClick}
+              className="w-full bg-primary text-white p-2.5 rounded-lg flex items-center justify-center hover:bg-primary/90 transition-all"
+              title={config.footerAction.label}
+            >
+              <config.footerAction.icon className="text-lg" />
+            </button>
+          </div>
+        )}
+      </aside>
+  );
+}
+return (
+  <aside className="w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col bg-white dark:bg-slate-900 z-20 transition-all duration-300">
       <div className="p-6 flex items-center gap-3">
+        <button
+          onClick={toggle}
+          className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        >
+          <MdClose className="text-xl text-slate-600 dark:text-slate-400" />
+        </button>
         <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
           <LogoIcon className="text-xl" />
         </div>
@@ -95,7 +165,6 @@ export default function Sidebar({ config, misalignmentsCount = 0 }: SidebarProps
         })}
       </nav>
 
-      
       {config.footerAction && (
         <div className="p-4 border-t border-slate-200 dark:border-slate-800">
           <button
@@ -108,5 +177,5 @@ export default function Sidebar({ config, misalignmentsCount = 0 }: SidebarProps
         </div>
       )}
     </aside>
-  );
+)
 }
