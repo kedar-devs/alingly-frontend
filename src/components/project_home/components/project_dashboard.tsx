@@ -15,11 +15,8 @@ import { useGetDashboardDataQuery } from "../store/api/dashboard.api";
 import { useAuthStore } from "../../auth/store/auth.store";
 import { useNavigate } from "react-router-dom";
 import DashboardCard from "./dashboard/dashboard_card";
-import Sidebar from "../../../utils/sidebar/sidebar";
-import { defaultSidebarConfig } from "../../../utils/sidebar/sidebar.constant";
 import { calculateCircularProgress } from "../../../utils/formatters/number.format";
 import { getStatusColor, getProgressColor } from "../../../utils/formatters/color.format";
-import AppPaths from "../../../routes/routes.constant";
 import ActionCard from "./dashboard/action_card";
 import ActivityCard from "./dashboard/activity_card";
 
@@ -61,22 +58,8 @@ function ProjectDashboard() {
 
   const { stats, alignmentScore, focusAreas, workstreams, pendingActions, recentActivities, projectName, misalignmentsCount } = dashboardData;
   const { dashArray, dashOffset } = calculateCircularProgress(alignmentScore.score);
-
-  const sidebarConfig = {
-    ...defaultSidebarConfig,
-    navItems: defaultSidebarConfig.navItems.map(item => ({
-      ...item,
-      isActive: item.id === "dashboard" // Set active based on current route
-    })),
-    footerAction: {
-      ...defaultSidebarConfig.footerAction!,
-      onClick: () => navigate(AppPaths.CREATE_PROJECT)
-    }
-  };
   return (
     <div className="flex h-screen overflow-hidden bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
-      {/* Sidebar */}
-      <Sidebar config={sidebarConfig} misalignmentsCount={misalignmentsCount} />
 
       {/* Main Content Wrapper */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">

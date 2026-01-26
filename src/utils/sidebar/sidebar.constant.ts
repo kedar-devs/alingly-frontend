@@ -45,7 +45,7 @@ import {
         id: "dashboard",
         label: "Dashboard",
         icon: MdDashboard,
-        path: "#",
+        path: AppPaths.PROJECT_DASHBOARD,
         isActive: true
       },
       {

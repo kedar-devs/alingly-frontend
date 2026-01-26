@@ -29,7 +29,7 @@ function ProjectLayout() {
     };
     const misalignmentsCount = dashboardData?.misalignmentsCount || 0;
   return (
-    <div className="flex h-screen overflow-hidden bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div className="flex w-screen h-screen overflow-hidden bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
         <Sidebar config={sidebarConfig} misalignmentsCount={misalignmentsCount} />
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
             <Outlet />
