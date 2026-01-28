@@ -12,6 +12,7 @@ const AppPaths = {
     PROJECT_DASHBOARD: '/project-dashboard/:projectId',
     VERIFY_EMAIL: '/verify-email',
     VERIFY_OTP: '/verify-otp',
+    WORKSTREAM_DETAILS: '/workstream-details/:workstreamId',
 }
 
 export default AppPaths;

@@ -17,6 +17,7 @@ interface UserCreate {
     email: string;
     password: string;
     organization_id: string;
+    profile_picture: string;
 }
 interface LoginParams {
     email: string;
@@ -132,6 +133,8 @@ export const useGetCurrentUserQuery=(options?:{enabled?:boolean})=>{
         
     })
 }
+
+
 
 export const AuthApi = {
     useRegisterUserMutation,

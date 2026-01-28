@@ -27,10 +27,6 @@ function createOrganization() {
         setErrors({ logo: 'Logo must be a valid image' })
         return
       }
-      if(file.size > 1024 * 1024 * 5) {
-        setErrors({ logo: 'Logo must be less than 5MB' })
-        return
-      }
       setLogo(file)
     }
   }

@@ -11,6 +11,7 @@ import {
   MdApi
 } from "react-icons/md";
 import { useParams } from "react-router-dom";
+import { useGetProjectsForUserQuery } from "../store/api/project.api";
 import { useGetDashboardDataQuery } from "../store/api/dashboard.api";
 import { useAuthStore } from "../../auth/store/auth.store";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +20,7 @@ import { calculateCircularProgress } from "../../../utils/formatters/number.form
 import { getStatusColor, getProgressColor } from "../../../utils/formatters/color.format";
 import ActionCard from "./dashboard/action_card";
 import ActivityCard from "./dashboard/activity_card";
+import AppPaths from "../../../routes/routes.constant";
 
 
 
@@ -36,8 +38,10 @@ const getIconComponent = (iconName?: string) => {
 
 function ProjectDashboard() {
   const { projectId } = useParams<{ projectId: string }>();
-  const { data: dashboardData, isLoading, error } = useGetDashboardDataQuery(projectId || '');
   const { user } = useAuthStore();
+  const { data: dashboardData, isLoading, error } = useGetDashboardDataQuery(projectId || '');
+  const {data: userProjects, isLoading: isUserProjectsLoading, error: isUserProjectsError} = useGetProjectsForUserQuery(user?.id || '');
+  
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -66,13 +70,15 @@ function ProjectDashboard() {
         {/* Top Navbar */}
         <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-between px-8 z-10">
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3 cursor-pointer group">
-              <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 group-hover:text-primary transition-colors">
-                <MdEdit className="text-lg" />
-              </div>
+          {isUserProjectsLoading || isUserProjectsError || !userProjects ? <div className="flex items-center gap-3 cursor-pointer group">
+              
               <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{projectName}</span>
               <MdExpandMore className="text-slate-400 text-sm" />
-            </div>
+            </div>:<select className="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-1.5 text-sm focus:ring-1 focus:ring-primary/30 dark:placeholder-slate-500" value={projectId} onChange={(e) => navigate(`${AppPaths.PROJECT_DASHBOARD}/${e.target.value}`)}>
+                    {userProjects?.map((project) => (
+                      <option key={project.id} value={project.id}>{project.name}</option>
+                    ))}
+          </select>}
             <div className="h-6 w-px bg-slate-200 dark:bg-slate-800"></div>
             <div className="relative w-64">
               <MdSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" />
@@ -225,6 +231,7 @@ function ProjectDashboard() {
                       <div 
                         key={workstream.id}
                         className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group cursor-pointer"
+                        onClick={() => navigate(`${AppPaths.WORKSTREAM_DETAILS}/${workstream.id}`)}
                       >
                         <div className="flex justify-between items-start mb-4">
                           <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-lg group-hover:bg-primary/10 transition-colors">
