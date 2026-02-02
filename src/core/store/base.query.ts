@@ -18,6 +18,14 @@ interface BaseQueryError {
   };
 }
 
+export const customBaseCheck = async (): Promise<boolean> => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return false;
+  }
+  return true;
+}
+
 export const customBaseQuery = async <T = unknown>(
   args: BaseQueryArgs
 ): Promise<{ data: T }> => {

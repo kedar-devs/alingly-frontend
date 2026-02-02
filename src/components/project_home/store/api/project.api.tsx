@@ -1,6 +1,7 @@
 import { customBaseQuery } from "../../../../core/store/base.query"
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query"
 import type { ProjectCreate,Project } from "../../interface/project.interface"
+import { projectHandler } from "../../handlers/project.handler"
 
 export const projectApi = {
     createProject: async (params: ProjectCreate) => {
@@ -67,8 +68,10 @@ export const useGetProjectsQuery = (id: string) => {
 }
 export const useGetProjectsForUserQuery = (id: string) => {
     return useQuery({
-        queryKey: ['projects', id],
-        queryFn: () => projectApi.getProjectsForUser(id),
+        queryKey: ['projects', 'user', id],
+        queryFn: async () => {
+            return projectHandler.getProjectsForUser(id);
+        },
         enabled: !!id,
         staleTime: 1000 * 60 * 5, // 5 minutes
         retry: 1

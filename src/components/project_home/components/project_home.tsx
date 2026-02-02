@@ -1,64 +1,106 @@
-import {  useGetProjectsForUserQuery } from "../store/api/project.api"
+import { useState } from "react"
+import { useGetProjectsForUserQuery } from "../store/api/project.api"
 import { useAuthStore } from "../../auth/store/auth.store"
 import { useNavigate } from "react-router-dom"
-import type { ProjectCard } from "../interface/project.interface"
-import { useState,useEffect } from "react"
 import ProjectDataCard from "./project_card"
+import ProjectTable from "./project_table"
 import AppPaths from "../../../routes/routes.constant"
+import { MdAddCircle } from "react-icons/md"
+import { MdViewModule, MdTableRows } from "react-icons/md"
+
+type ViewTab = "table" | "cards"
+
 function ProjectHome() {
+    const [activeTab, setActiveTab] = useState<ViewTab>("table")
     const { user } = useAuthStore()
-    const { data: projects, isLoading, error } = useGetProjectsForUserQuery(user?.id || '0')
-    const [projectCards, setProjectCards] = useState<ProjectCard[]>([])
-    const [projectLoading, setProjectLoading] = useState(false)
+    const { data: projects, isLoading, error } = useGetProjectsForUserQuery(user?.id || "1")
     const navigate = useNavigate()
-    useEffect(() => {
-        if(isLoading) {
-            setProjectLoading(true)
-            return
-        }
-        if(projects) {
-            setProjectCards(projects.map((project) => ({
-                project_id: project.id,
-                name: project.name,
-                description: project.description,
-            })))
-        }
-        setProjectLoading(false)
-    }, [projects,isLoading])
+
+    const projectCards = (projects ?? []).map((project) => ({
+        project_id: project.id,
+        name: project.name,
+        description: project.description,
+    }))
 
     const navigateToProject = (id: string) => {
-        if(id === '0') {
+        if (id === "0") {
             navigate(AppPaths.CREATE_PROJECT)
             return
         }
         navigate(`/project/${id}`)
     }
-  return (
-    <div className=" w-full h-full">
-        <div className=" w-full h-full flex flex-col">
-            <div className="w-full flex flex-col items-start justify-start">
-            <h1 className="text-4xl font-bold">Project Home</h1>
+
+    return (
+        <div className="w-full h-full px-10 py-5">
+            <div className="w-full flex flex-row items-start justify-between">
+                <div className="w-1/2 flex flex-col items-start justify-center gap-1">
+                    <h1 className="text-2xl font-bold">Project Home</h1>
+                    <span className="text-sm text-gray-500">Manage and track all your projects here</span>
+                </div>
+                <div className="w-1/2 flex items-end justify-end ml-auto">
+                    <button
+                        className="bg-[#5bd787] text-black p-2 rounded-md cursor-pointer font-bold flex flex-row items-center justify-center gap-2"
+                        onClick={() => navigateToProject("0")}
+                    >
+                        <MdAddCircle className="text-lg" />
+                        Create Project
+                    </button>
+                </div>
             </div>
-            <div className="w-full grid grid-cols-4 gap-5 mt-5">
-            {projectCards.map((project) => (
-                <div key={project.project_id} className="flex items-center justify-center w-full h-full" onClick={() => navigate(`/project/${project.project_id}`)}>
-                    <ProjectDataCard projectCard={project} />
-                </div>
-            ))}
-            {projectLoading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
-            <div className="w-80 h-80 border rounded-sm border-[#5bd787] text-[#5bd787] flex flex-col justify-center items-center p-5 gap-5">
-                <img src="/project_main.jpg" alt="Project Image" className=" w-full h-full object-cover" />
-                <button className="w-full h-10 bg-[#5bd787] text-black rounded-md cursor-pointer font-bold" onClick={()=>{
-                    navigateToProject('0')
-                }
-                }>
-                    Create Project
+
+            <div className="mt-6 flex gap-1 border-b border-gray-200">
+                <button
+                    type="button"
+                    className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-t-md transition-colors ${
+                        activeTab === "table"
+                            ? "bg-gray-100 text-[#5bd787] border-b-2 border-[#5bd787] -mb-px"
+                            : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    }`}
+                    onClick={() => setActiveTab("table")}
+                >
+                    <MdTableRows className="text-lg" />
+                    Table view
                 </button>
-                </div>
+                <button
+                    type="button"
+                    className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-t-md transition-colors ${
+                        activeTab === "cards"
+                            ? "bg-gray-100 text-[#5bd787] border-b-2 border-[#5bd787] -mb-px"
+                            : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    }`}
+                    onClick={() => setActiveTab("cards")}
+                >
+                    <MdViewModule className="text-lg" />
+                    Card view
+                </button>
+            </div>
+
+            <div className="mt-4">
+                {isLoading && (
+                    <div className="py-8 text-center text-gray-500">Loading projects...</div>
+                )}
+                {error && (
+                    <div className="py-8 text-center text-red-600">Failed to load projects.</div>
+                )}
+                {!isLoading && !error && activeTab === "table" && (
+                    <ProjectTable
+                        data={projects ?? []}
+                        onVisitProject={navigateToProject}
+                    />
+                )}
+                {!isLoading && !error && activeTab === "cards" && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {projectCards.map((card) => (
+                            <ProjectDataCard
+                                key={card.project_id}
+                                projectCard={card}
+                                onVisit={navigateToProject}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
-    </div>
-  )
+    )
 }
-
 export default ProjectHome
