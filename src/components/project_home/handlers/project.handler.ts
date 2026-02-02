@@ -35,7 +35,9 @@ export const projectHandler = {
         if (shouldUseMockData()) {
             await new Promise(resolve => setTimeout(resolve, 500));
             console.warn("Using Mock Data for getProjectsForUser");
-            return projects.filter((project) => project.users.includes(userId));
+            const result= projects.filter((project) => project.users.includes("user-1"));
+            console.log("Mock Data for getProjectsForUser:", result,userId);
+            return result;
         }
         try{
         const result = await projectApi.getProjectsForUser(userId);

@@ -18,8 +18,13 @@ function getDefaultColumns(onVisitProject?: (id: string) => void): ColumnDef<Pro
     columnHelper.accessor("description", {
       header: "Description",
       cell: (info) => {
-        const desc = info.getValue() as string
-        return desc?.length > 60 ? `${desc.slice(0, 60)}...` : desc ?? "—"
+        const desc = (info.getValue() as string) ?? ""
+        const display = desc.length > 60 ? `${desc.slice(0, 60)}...` : desc || "—"
+        return (
+          <span className="cursor-help" title={desc || undefined}>
+            {display}
+          </span>
+        )
       },
     }),
     columnHelper.accessor("created_at", {
@@ -52,7 +57,7 @@ function getDefaultColumns(onVisitProject?: (id: string) => void): ColumnDef<Pro
       cell: ({ row }) => (
         <button
           type="button"
-          className="text-[#5bd787] font-semibold hover:underline"
+          className="text-[#5bd787] font-semibold hover:underline hover:cursor-pointer"
           onClick={() => onVisitProject?.(row.original.id)}
         >
           Visit

@@ -13,7 +13,7 @@ type ViewTab = "table" | "cards"
 function ProjectHome() {
     const [activeTab, setActiveTab] = useState<ViewTab>("table")
     const { user } = useAuthStore()
-    const { data: projects, isLoading, error } = useGetProjectsForUserQuery(user?.id || "1")
+    const { data: projects, isLoading, error } = useGetProjectsForUserQuery(user?.id || "user-1")
     const navigate = useNavigate()
 
     const projectCards = (projects ?? []).map((project) => ({
