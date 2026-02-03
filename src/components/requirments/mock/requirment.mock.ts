@@ -1,0 +1,50 @@
+import { RequirementStatus } from "../interfaces/requirment.interface";
+import type{ Requirement } from "../interfaces/requirment.interface";
+
+export const MOCK_REQUIREMENTS: Requirement[] = [
+  {
+    id: "req-001",
+    title: "User Authentication Flow",
+    content: "Implement secure login and registration with email/password. Support OAuth providers (Google, Microsoft). Include password reset and session management.",
+    version: "1.0",
+    status: RequirementStatus.APPROVED,
+    created_at: "2025-01-15T09:00:00Z",
+    updated_at: "2025-01-20T14:30:00Z",
+  },
+  {
+    id: "req-002",
+    title: "Dashboard Analytics Widget",
+    content: "Display key metrics: active users, conversion rate, and revenue. Widgets should be configurable and support date range filters.",
+    version: "0.2",
+    status: RequirementStatus.IN_REVIEW,
+    created_at: "2025-01-18T11:00:00Z",
+    updated_at: "2025-01-28T16:45:00Z",
+  },
+  {
+    id: "req-003",
+    title: "Export Data to CSV",
+    content: "Allow users to export table data to CSV format. Include column selection and apply current filters to the export.",
+    version: "1.0",
+    status: RequirementStatus.HANDED_TO_DEV,
+    created_at: "2025-01-10T08:00:00Z",
+    updated_at: "2025-01-25T10:00:00Z",
+  },
+  {
+    id: "req-004",
+    title: "Notification Preferences",
+    content: "Users can configure email and in-app notification preferences per project. Support digest (daily/weekly) and real-time options.",
+    version: "0.1",
+    status: RequirementStatus.DRAFT,
+    created_at: "2025-01-22T13:00:00Z",
+    updated_at: "2025-01-22T13:00:00Z",
+  },
+  {
+    id: "req-005",
+    title: "Role-Based Access Control",
+    content: "Define roles: Admin, Editor, Viewer. Admins manage users and settings; Editors create/edit content; Viewers have read-only access.",
+    version: "0.3",
+    status: RequirementStatus.CHANGES_REQUESTED,
+    created_at: "2025-01-12T10:30:00Z",
+    updated_at: "2025-01-27T09:15:00Z",
+  },
+];
