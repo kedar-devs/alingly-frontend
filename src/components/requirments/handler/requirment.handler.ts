@@ -36,7 +36,7 @@ export const requirementHandler = {
         if (shouldUseMockData()) {
             await new Promise(resolve => setTimeout(resolve, 500));
             console.warn("Using Mock Data for getRequirementsForProject");
-            return MOCK_REQUIREMENTS.filter((requirement) => requirement.project_id === projectId);
+            return MOCK_REQUIREMENTS.filter((requirement) => requirement.project_id === "project-001");
         }
         try{
             const result = await requirementApi.getRequirementsForProject(projectId);

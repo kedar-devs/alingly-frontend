@@ -10,6 +10,7 @@ export interface Requirement {
     title:string,
     content:string,
     version:string,
+    project_id:string,
     status:RequirementStatus,
     created_at:string,
     updated_at:string,

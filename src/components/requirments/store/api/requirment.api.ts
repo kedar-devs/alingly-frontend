@@ -50,10 +50,13 @@ export const requirementApi = {
     },
 
 }
-export const useGetRequirementsQuery = () => {
+export const useGetRequirementsQuery = (projectId: string) => {
     return useQuery({
         queryKey: ['requirements'],
-        queryFn: requirementHandler.getRequirements,
+        queryFn: () => requirementHandler.getRequirementsForProject(projectId),
+        enabled: !!projectId,
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        retry: 1
     })
 }
 export const useGetRequirementByIdQuery = (id: string) => {

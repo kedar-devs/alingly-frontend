@@ -42,7 +42,7 @@ export default function Sidebar({ config, misalignmentsCount = 0 }: SidebarProps
 
             const className = `w-full flex items-center justify-center p-2.5 rounded-lg transition-colors relative ${
               active
-                ? "bg-primary text-white"
+                ? "bg-primary text-slate-600 border border-slate-600 dark:border-slate-800 rounded-lg"
                 : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
             }`;
 

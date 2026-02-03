@@ -29,7 +29,15 @@ function getDefaultColumns(onVisitRequirement?: (id: string) => void): ColumnDef
         }),
         columnHelper.accessor("created_at", {
             header: "Created At",
-            cell: (info) => info.getValue(),
+            cell: (info) => {
+                const val = info.getValue() as string
+                if (!val) return "—"
+                try {
+                    return new Date(val).toLocaleDateString()
+                } catch {
+                    return val
+                }
+            },
         }),
         columnHelper.display({
             id: "actions",
