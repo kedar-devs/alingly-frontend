@@ -13,6 +13,8 @@ const AppPaths = {
     VERIFY_EMAIL: '/verify-email',
     VERIFY_OTP: '/verify-otp',
     WORKSTREAM_DETAILS: '/workstream-details/:workstreamId',
+    REQUIREMENT_DASHBOARD: '/project/:projectId/requirement-dashboard/:requirementId',
+    REQUIREMENT_DETAILS: '/project/:projectId/requirement-details/:requirementId',
 }
 
 export default AppPaths;

@@ -1,5 +1,10 @@
+export interface User {
+    id:string,
+    name:string,
+}
 export enum RequirementStatus {
     DRAFT = "DRAFT",
+    REJECTED = "REJECTED",
     IN_REVIEW = "IN_REVIEW",
     APPROVED = "APPROVED",
     CHANGES_REQUESTED = "CHANGES_REQUESTED",
@@ -21,4 +26,24 @@ export interface RequirementCreate {
     content:string,
     version:string,
     project_id:string,
+}
+
+export interface RequirementVersionMeta {
+    version: number;
+    updated_at: string;
+    updated_by?: string;
+}
+
+export interface Comment {
+    id:string,
+    content:string,
+    created_at:string,
+    updated_at:string,
+    user_id:string,
+    requirement_id:string,
+    parent_comment_id:string|null,
+    author:User,
+    requirement:Requirement,
+    parent:Comment|null,
+    children:Comment[],
 }

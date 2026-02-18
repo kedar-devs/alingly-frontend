@@ -9,6 +9,7 @@ import ProjectHomeComponent from '../components/project_home/components/project_
 import RequirementPage from '../components/requirments/components/requirment_page'
 import ProjectDashboard from '../components/project_home/components/project_dashboard'
 import ProjectLayout from '../components/project_home/components/project_layout'
+import RequirementDashboard from '../components/requirments/components/requirment_dashboard'
 
 export const AppRoutes: React.FunctionComponent = () => {
     return (
@@ -23,6 +24,7 @@ export const AppRoutes: React.FunctionComponent = () => {
                 <Route path={AppPaths.PROJECT_HOME} element={<ProjectHomeComponent />} />
                 <Route path={AppPaths.PROJECT_DASHBOARD} element={<ProjectDashboard />} />
                 <Route path={AppPaths.REQUIREMENT_PAGE} element={<RequirementPage />} />
+                <Route path={AppPaths.REQUIREMENT_DASHBOARD} element={<RequirementDashboard />} />
             </Route>
         </Routes>
         </BrowserRouter>
