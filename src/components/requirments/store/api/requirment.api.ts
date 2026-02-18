@@ -161,7 +161,8 @@ export const useGetActivityForRequirementQuery = (requirementId: string, top: nu
         queryFn: () => requirementHandler.getActivityForRequirement(requirementId, top),
         enabled: !!requirementId && !!top,
         staleTime: 1000 * 60 * 5, // 5 minutes
-        retry: 1
+        retry: 1,
+        refetchInterval: 10000, // 10 seconds
     })
 }
 export const useGetRequirmentByVersionQuery = (

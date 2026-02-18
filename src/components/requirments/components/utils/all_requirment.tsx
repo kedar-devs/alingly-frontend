@@ -18,7 +18,7 @@ function  AllRequirment({handleRequirementChange}:AllRequirmentProps) {
     const { data: debouncedRequirements, isLoading: isDebouncedLoading, error: isDebouncedError } = useGetSearchedRequirementsForProjectQuery(projectId || "",debouncedSearchText)
 
   return (
-    <div className="w-full h-full bg-gray-50/50 border border-gray-200 rounded-md flex flex-col p-3 ">
+    <div className="w-full h-full bg-gray-50/50 border border-gray-200 rounded-md flex flex-col px-3">
         <div className="w-full h-10 flex flex-row items-start justify-start gap-1 ">
             <input type="text" placeholder="Search requirements" className="w-full h-full p-2 rounded-md border border-gray-200 bg-white" value={searchText} onChange={(e) => handleSearch(e.target.value)} />
         </div>

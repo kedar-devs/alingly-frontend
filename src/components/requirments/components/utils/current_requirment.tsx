@@ -4,14 +4,15 @@ import {
     useGetRequirementByIdQuery,
     useGetRequirmentByVersionQuery,
 } from "../../store/api/requirment.api";
+import BasicEditor from "../../../../utils/text-editor/basic_editor";
 import type { Comment } from "../../interfaces/requirment.interface";
-import RequirementVersion from "../requirments_version";
+
 
 type CurrentProjectProps = {
     currentRequirementId: string;
 };
 
-function CurrentProject({ currentRequirementId }: CurrentProjectProps) {
+function CurrentRequirment({ currentRequirementId }: CurrentProjectProps) {
     const [newComment, setNewComment] = useState<string>("");
     const [viewingVersion, setViewingVersion] = useState<number | null>(null);
 
@@ -26,8 +27,8 @@ function CurrentProject({ currentRequirementId }: CurrentProjectProps) {
     const displayRequirement = viewingVersion !== null ? versionSnapshot : requirement;
 
     return (
-        <div className="w-full h-full grid grid-cols-2 gap-4">
-            <div className="col-span-1 flex flex-col items-start justify-start gap-2">
+        <div className="w-full h-full grid grid-cols-3 gap-4">
+            <div className="col-span-2 flex flex-col items-start justify-start gap-2">
                 {viewingVersion !== null && (
                     <div className="flex items-center gap-2 mb-2">
                         <span className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded">
@@ -43,17 +44,19 @@ function CurrentProject({ currentRequirementId }: CurrentProjectProps) {
                     </div>
                 )}
                 <h1 className="text-2xl font-bold">{displayRequirement?.title}</h1>
-                <p className="text-sm text-gray-500 word-wrap">{displayRequirement?.content}</p>
+                <div className="w-full h-full bg-white">
+                    <BasicEditor content={displayRequirement?.content || ""} />
+                </div>
             </div>
         <div className="col-span-1 flex flex-col gap-4">
-            <div className="bg-white rounded-md border border-gray-200 p-4">
+            {/* <div className="bg-white rounded-md border border-gray-200 p-4">
                 <RequirementVersion
                     requirementId={currentRequirementId}
                     currentRequirement={requirement ?? null}
                     onViewVersion={setViewingVersion}
                     viewingVersion={viewingVersion}
                 />
-            </div>
+            </div> */}
             <div className="bg-gray-200 rounded-md p-4 gap-4">
             <div className="flex flex-col items-center justify-start gap-2 border-0 border-b-2 border-gray-300">
             <h1 className="text-2xl font-bold">Ambiguity Detection</h1>
@@ -91,4 +94,4 @@ function CurrentProject({ currentRequirementId }: CurrentProjectProps) {
     );
 }
 
-export default CurrentProject
+export default CurrentRequirment
