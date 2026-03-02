@@ -1,3 +1,4 @@
+import type{ JSONContent } from '@tiptap/react'
 export interface User {
     id:string,
     name:string,
@@ -13,7 +14,7 @@ export enum RequirementStatus {
 export interface Requirement {
     id:string,
     title:string,
-    content:string,
+    content:JSONContent,
     version:string,
     project_id:string,
     status:RequirementStatus,
@@ -23,7 +24,7 @@ export interface Requirement {
 
 export interface RequirementCreate {
     title:string,
-    content:string,
+    content:JSONContent,
     version:string,
     project_id:string,
 }

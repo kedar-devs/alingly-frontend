@@ -10,6 +10,7 @@ import RequirementPage from '../components/requirments/components/requirment_pag
 import ProjectDashboard from '../components/project_home/components/project_dashboard'
 import ProjectLayout from '../components/project_home/components/project_layout'
 import RequirementDashboard from '../components/requirments/components/requirment_dashboard'
+import RequirementVersion from '@/components/requirments/components/requirment_version'
 
 export const AppRoutes: React.FunctionComponent = () => {
     return (
@@ -25,6 +26,7 @@ export const AppRoutes: React.FunctionComponent = () => {
                 <Route path={AppPaths.PROJECT_DASHBOARD} element={<ProjectDashboard />} />
                 <Route path={AppPaths.REQUIREMENT_PAGE} element={<RequirementPage />} />
                 <Route path={AppPaths.REQUIREMENT_DASHBOARD} element={<RequirementDashboard />} />
+                <Route path={AppPaths.REQUIREMENT_VERSION} element={<RequirementVersion />} />
             </Route>
         </Routes>
         </BrowserRouter>

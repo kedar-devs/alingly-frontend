@@ -70,7 +70,7 @@ export const requirementApi = {
         })
         return result;
     },
-    getRequirementByIdAndVersion: async (id: string, version: number): Promise<Requirement | undefined> => {
+    getRequirementByIdAndVersion: async (id: string, version: number|""): Promise<Requirement | undefined> => {
         const result = await customBaseQuery<Requirement>({
             url: `/requirement/version/${id}/${version}`,
             method: "get",
@@ -167,9 +167,10 @@ export const useGetActivityForRequirementQuery = (requirementId: string, top: nu
 }
 export const useGetRequirmentByVersionQuery = (
     requirementId: string,
-    version: number = 1,
+    version: number|"" = 1,
     enabled: boolean = true
 ) => {
+    console.log("This is version and requirement",version,requirementId)
     return useQuery({
         queryKey: ["requirements", "version", requirementId, version],
         queryFn: () => requirementHandler.getRequirmentByIdAndVersion(requirementId, version),

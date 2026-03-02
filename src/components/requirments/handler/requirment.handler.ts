@@ -77,12 +77,12 @@ export const requirementHandler = {
             throw error
         }
     },
-    getRequirmentByIdAndVersion: async (requirementId: string, version: number): Promise<Requirement | undefined> => {
+    getRequirmentByIdAndVersion: async (requirementId: string, version: number|""): Promise<Requirement | undefined> => {
         if (shouldUseMockData()) {
             await new Promise((resolve) => setTimeout(resolve, 300));
-            console.warn("Using Mock data for getRequirmentByIdAndVersion");
-            const req = MOCK_REQUIREMENTS.find((r) => r.id === requirementId);
-            if (!req || parseInt(req.version, 10) !== version) return undefined;
+            console.warn("Using Mock data for getRequirmentByIdAndVersion",requirementId,version);
+            const req = MOCK_REQUIREMENTS.find((r) => r.id === "req-001");
+            // if (!req || parseInt(req.version, 10) !== version) return undefined;
             return req;
         }
         try {

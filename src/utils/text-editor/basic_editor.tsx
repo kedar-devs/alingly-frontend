@@ -3,8 +3,9 @@ import StarterKit from "@tiptap/starter-kit"
 import Placeholder from "@tiptap/extension-placeholder"
 import Underline from "@tiptap/extension-underline"
 import Link from "@tiptap/extension-link"
+import type{JSONContent} from  "@tiptap/react"
 
-function BasicEditor({ content }: { content: string }) {
+function BasicEditor({ content }: { content: JSONContent | undefined }) {
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -14,6 +15,13 @@ function BasicEditor({ content }: { content: string }) {
         ],
         content: `<p>${content || ""}</p>`,
     })
+    if(content===undefined){
+        return(
+            <div className=" w-full h-full flex justify-center items-center">
+                No Data Available
+            </div>
+        )
+    }
     return (
         <div className="w-full h-full">
             <div className="w-full flex flex-wrap gap-2">
@@ -29,6 +37,7 @@ function BasicEditor({ content }: { content: string }) {
             <button className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>
                 H1
             </button>
+            <button onClick={()=>editor.getJSON()}>get JSON</button>
             </div>
         <EditorContent editor={editor}  className="border-0"/>
         </div>
