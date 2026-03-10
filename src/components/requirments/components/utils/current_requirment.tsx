@@ -6,6 +6,7 @@ import {
 } from "../../store/api/requirment.api";
 import BasicEditor from "../../../../utils/text-editor/basic_editor";
 import type { Comment } from "../../interfaces/requirment.interface";
+import { textToJSONContent } from "@/utils/text-editor/text.helper";
 
 
 type CurrentProjectProps = {
@@ -45,7 +46,7 @@ function CurrentRequirment({ currentRequirementId }: CurrentProjectProps) {
                 )}
                 <h1 className="text-2xl font-bold">{displayRequirement?.title}</h1>
                 <div className="w-full h-full bg-white">
-                    <BasicEditor content={displayRequirement?.content || ""} />
+                    <BasicEditor content={displayRequirement?.content || textToJSONContent("")} />
                 </div>
             </div>
         <div className="col-span-1 flex flex-col gap-4">

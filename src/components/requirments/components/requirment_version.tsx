@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetRequirementVersionsQuery, useGetRequirmentByVersionQuery } from "../store/api/requirment.api";
 import BasicEditor from "@/utils/text-editor/basic_editor";
+import CompareJsonBlob from "@/utils/text-editor/compare_jsb";
+import { textToJSONContent } from "@/utils/text-editor/text.helper";
 
 function RequirementVersion() {
 
@@ -62,14 +64,17 @@ function RequirementVersion() {
                     <div className="w-full flex justify-center">
                         <button className="bg-gray-300 text-black h-12" onClick={()=>{handleCompare()}}>Compare</button>
                     </div>
-                    <div className="w-full h-full grid grid-cols-4">
+
+                    {isComparing?<div className="w-full h-full">
+                        <CompareJsonBlob contentA={versionSnapshotA?.content || textToJSONContent("")} contentB={versionSnapshotB?.content || textToJSONContent("")} />
+                    </div>:<div className="w-full h-full grid grid-cols-4">
                     <div className="col-span-2 flex flex-col w-full h-full border">
                         {isVersionALoading?<></>:<BasicEditor content={versionSnapshotA?.content} />}
                     </div>
                     <div className=" col-span-2 flex flex-col w-full h-full border">
                         {isVersionBLoading?<></>:<BasicEditor content={versionSnapshotB?.content} />}
                     </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
 

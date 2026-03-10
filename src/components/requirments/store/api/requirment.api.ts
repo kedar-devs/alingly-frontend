@@ -170,7 +170,6 @@ export const useGetRequirmentByVersionQuery = (
     version: number|"" = 1,
     enabled: boolean = true
 ) => {
-    console.log("This is version and requirement",version,requirementId)
     return useQuery({
         queryKey: ["requirements", "version", requirementId, version],
         queryFn: () => requirementHandler.getRequirmentByIdAndVersion(requirementId, version),

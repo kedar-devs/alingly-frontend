@@ -1,12 +1,24 @@
+import type { JSONContent } from "@tiptap/react";
 import { RequirementStatus } from "../interfaces/requirment.interface";
-import type{ Requirement, Comment } from "../interfaces/requirment.interface";
+import type { Requirement, Comment } from "../interfaces/requirment.interface";
+import { textToJSONContent } from "@/utils/text-editor/text.helper";
 
 export const MOCK_REQUIREMENTS: Requirement[] = [
   {
     id: "req-001",
     title: "User Authentication Flow",
-    content: "Implement secure login and registration with email/password. Support OAuth providers (Google, Microsoft). Include password reset and session management.",
+    content: textToJSONContent("Implement secure login and registration with email/password. Support OAuth providers (Google, Microsoft). Include password reset and session management."),
     version: "1.0",
+    project_id: "project-001",
+    status: RequirementStatus.APPROVED,
+    created_at: "2025-01-15T09:00:00Z",
+    updated_at: "2025-01-20T14:30:00Z",
+  },
+  {
+    id: "req-001",
+    title: "User Authentication Flow",
+    content: textToJSONContent("Implement secure login and registration with email/password. Support OAuth providers (Goohle, Microsoft, Github). Include password reset and session management with ability to reset/forget password."),
+    version: "2.0",
     project_id: "project-001",
     status: RequirementStatus.APPROVED,
     created_at: "2025-01-15T09:00:00Z",
@@ -15,7 +27,7 @@ export const MOCK_REQUIREMENTS: Requirement[] = [
   {
     id: "req-002",
     title: "Dashboard Analytics Widget",
-    content: "Display key metrics: active users, conversion rate, and revenue. Widgets should be configurable and support date range filters.",
+    content: textToJSONContent("Display key metrics: active users, conversion rate, and revenue. Widgets should be configurable and support date range filters."),
     version: "2.0",
     project_id: "project-001",
     status: RequirementStatus.IN_REVIEW,
@@ -25,7 +37,7 @@ export const MOCK_REQUIREMENTS: Requirement[] = [
   {
     id: "req-003",
     title: "Export Data to CSV",
-    content: "Allow users to export table data to CSV format. Include column selection and apply current filters to the export.",
+    content: textToJSONContent("Allow users to export table data to CSV format. Include column selection and apply current filters to the export."),
     version: "1.0",
     project_id: "project-001",
     status: RequirementStatus.HANDED_TO_DEV,
@@ -35,7 +47,7 @@ export const MOCK_REQUIREMENTS: Requirement[] = [
   {
     id: "req-004",
     title: "Notification Preferences",
-    content: "Users can configure email and in-app notification preferences per project. Support digest (daily/weekly) and real-time options.",
+    content: textToJSONContent("Users can configure email and in-app notification preferences per project. Support digest (daily/weekly) and real-time options."),
     version: "1.0",
     project_id: "project-001",
     status: RequirementStatus.DRAFT,
@@ -45,7 +57,7 @@ export const MOCK_REQUIREMENTS: Requirement[] = [
   {
     id: "req-005",
     title: "Role-Based Access Control",
-    content: "Define roles: Admin, Editor, Viewer. Admins manage users and settings; Editors create/edit content; Viewers have read-only access.",
+    content: textToJSONContent("Define roles: Admin, Editor, Viewer. Admins manage users and settings; Editors create/edit content; Viewers have read-only access."),
     version: "3.0",
     project_id: "project-001",
     status: RequirementStatus.CHANGES_REQUESTED,
@@ -69,7 +81,7 @@ export const MOCK_ACTIVITY: Comment[] = [ {
   requirement: {
     id: "req-001",
     title: "User Authentication Flow",
-    content: "Implement secure login and registration with email/password. Support OAuth providers (Google, Microsoft). Include password reset and session management.",
+    content: textToJSONContent("Implement secure login and registration with email/password. Support OAuth providers (Google, Microsoft). Include password reset and session management."),
     version: "1.0",
     project_id: "project-001",
     status: RequirementStatus.APPROVED,
@@ -93,7 +105,7 @@ export const MOCK_ACTIVITY: Comment[] = [ {
   requirement: {
     id: "req-001",
     title: "Dashboard Analytics Widget",
-    content: "Display key metrics: active users, conversion rate, and revenue. Widgets should be configurable and support date range filters.",
+    content: textToJSONContent("Display key metrics: active users, conversion rate, and revenue. Widgets should be configurable and support date range filters."),
     version: "2.0",
     project_id: "project-001",
     status: RequirementStatus.APPROVED,
@@ -117,7 +129,7 @@ export const MOCK_ACTIVITY: Comment[] = [ {
   requirement: {
     id: "req-001",
     title: "Export Data to CSV",
-    content: "Allow users to export table data to CSV format. Include column selection and apply current filters to the export.",
+    content: textToJSONContent("Allow users to export table data to CSV format. Include column selection and apply current filters to the export."),
     version: "1.0",
     project_id: "project-001",
     status: RequirementStatus.APPROVED,
@@ -141,7 +153,7 @@ export const MOCK_ACTIVITY: Comment[] = [ {
   requirement: {
     id: "req-001",
     title: "Notification Preferences",
-    content: "Users can configure email and in-app notification preferences per project. Support digest (daily/weekly) and real-time options.",
+    content: textToJSONContent("Users can configure email and in-app notification preferences per project. Support digest (daily/weekly) and real-time options."),
     version: "1.0",
     project_id: "project-001",
     status: RequirementStatus.APPROVED,
@@ -165,7 +177,7 @@ export const MOCK_ACTIVITY: Comment[] = [ {
   requirement: {
     id: "req-005",
     title: "Role-Based Access Control",
-    content: "Define roles: Admin, Editor, Viewer. Admins manage users and settings; Editors create/edit content; Viewers have read-only access.",
+    content: textToJSONContent("Define roles: Admin, Editor, Viewer. Admins manage users and settings; Editors create/edit content; Viewers have read-only access."),
     version: "3.0",
     project_id: "project-001",
     status: RequirementStatus.APPROVED,

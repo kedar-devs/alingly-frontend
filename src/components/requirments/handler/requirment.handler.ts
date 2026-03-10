@@ -80,8 +80,7 @@ export const requirementHandler = {
     getRequirmentByIdAndVersion: async (requirementId: string, version: number|""): Promise<Requirement | undefined> => {
         if (shouldUseMockData()) {
             await new Promise((resolve) => setTimeout(resolve, 300));
-            console.warn("Using Mock data for getRequirmentByIdAndVersion",requirementId,version);
-            const req = MOCK_REQUIREMENTS.find((r) => r.id === "req-001");
+            const req = MOCK_REQUIREMENTS.find((r) => r.id === "req-001" && Number(r.version)==version);
             // if (!req || parseInt(req.version, 10) !== version) return undefined;
             return req;
         }

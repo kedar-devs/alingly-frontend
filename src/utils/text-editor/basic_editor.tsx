@@ -13,7 +13,7 @@ function BasicEditor({ content }: { content: JSONContent | undefined }) {
             Underline,
             Link,
         ],
-        content: `<p>${content || ""}</p>`,
+        content: content,
     })
     if(content===undefined){
         return(
@@ -37,7 +37,7 @@ function BasicEditor({ content }: { content: JSONContent | undefined }) {
             <button className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>
                 H1
             </button>
-            <button onClick={()=>editor.getJSON()}>get JSON</button>
+            <button onClick={()=>console.log(editor.getJSON())}>get JSON</button>
             </div>
         <EditorContent editor={editor}  className="border-0"/>
         </div>

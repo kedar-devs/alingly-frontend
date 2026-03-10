@@ -5,6 +5,7 @@ import {
     useRestoreRequirementVersionMutation,
 } from "../store/api/requirment.api";
 import type { Requirement, RequirementVersionMeta } from "../interfaces/requirment.interface";
+import BasicEditor from "@/utils/text-editor/basic_editor";
 
 
 type RequirementVersionProps = {
@@ -198,7 +199,7 @@ function CompareVersions({
                         <>
                             <div className="font-medium text-gray-800 mb-1">{versionA.title}</div>
                             <pre className="text-xs text-gray-600 whitespace-pre-wrap font-sans">
-                                {versionA.content}
+                                <BasicEditor content={versionA.content} />
                             </pre>
                         </>
                     ) : (
@@ -213,7 +214,7 @@ function CompareVersions({
                         <>
                             <div className="font-medium text-gray-800 mb-1">{versionB.title}</div>
                             <pre className="text-xs text-gray-600 whitespace-pre-wrap font-sans">
-                                {versionB.content}
+                                <BasicEditor content={versionB.content} />
                             </pre>
                         </>
                     ) : (
