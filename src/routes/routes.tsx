@@ -11,6 +11,7 @@ import ProjectDashboard from '../components/project_home/components/project_dash
 import ProjectLayout from '../components/project_home/components/project_layout'
 import RequirementDashboard from '../components/requirments/components/requirment_dashboard'
 import RequirementVersion from '@/components/requirments/components/requirment_version'
+import FlagCenter from '@/components/flags/components/flag_center'
 
 export const AppRoutes: React.FunctionComponent = () => {
     return (
@@ -27,6 +28,7 @@ export const AppRoutes: React.FunctionComponent = () => {
                 <Route path={AppPaths.REQUIREMENT_PAGE} element={<RequirementPage />} />
                 <Route path={AppPaths.REQUIREMENT_DASHBOARD} element={<RequirementDashboard />} />
                 <Route path={AppPaths.REQUIREMENT_VERSION} element={<RequirementVersion />} />
+                <Route path={AppPaths.FLAG_MISALIGNED} element={<FlagCenter />} />
             </Route>
         </Routes>
         </BrowserRouter>

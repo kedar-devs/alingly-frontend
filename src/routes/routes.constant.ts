@@ -15,7 +15,8 @@ const AppPaths = {
     WORKSTREAM_DETAILS: '/workstream-details/:workstreamId',
     REQUIREMENT_DASHBOARD: '/project/:projectId/requirement-dashboard/:requirementId',
     REQUIREMENT_DETAILS: '/project/:projectId/requirement-details/:requirementId',
-    REQUIREMENT_VERSION: '/requirement-details/:requirementId/version-history'
+    REQUIREMENT_VERSION: '/requirement-details/:requirementId/version-history',
+    FLAG_MISALIGNED: '/flag-misaligned/:requirementId',
 }
 
 export default AppPaths;
