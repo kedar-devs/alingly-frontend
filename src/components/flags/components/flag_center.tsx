@@ -1,5 +1,7 @@
 import InfoCard from "@/utils/cards/info_card"
-import SuggestionCard from "@/utils/cards/suggestion_card"
+import { FlagTypeEnum } from "../interface/flag.interface"
+import FlagContents from "./flag_contents"
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 
@@ -26,14 +28,14 @@ function FlagCenter() {
               <TabsTrigger value="high_priority">High Priority</TabsTrigger>
               <TabsTrigger value="assigned_me">Assigned to Me</TabsTrigger>
             </TabsList>
-            <TabsContent value="all_flags" className="w-full h-full">
-              <SuggestionCard id="1234567890" priority="High" priority_css="text-red-500" flagged_by="Alice" date={new Date()} flag="The requirement is too vague and does not specify the expected behavior of the system." ai_flag="The requirement is ambiguous and lacks specific details about the expected behavior, which may lead to misunderstandings during development." ai_suggestion="Consider revising the requirement to include specific details about the expected behavior, such as input/output examples, edge cases, and any constraints that should be considered during implementation." />
+            <TabsContent value="all_flags" className="w-full h-full overflow-y-scroll">
+              <FlagContents type={FlagTypeEnum.All} />
             </TabsContent>
             <TabsContent value="high_priority" className="w-full h-full">
-              High Priority Content
+              <FlagContents type={FlagTypeEnum.High} />
             </TabsContent>
             <TabsContent value="assigned_me" className="w-full h-full">
-              Assigned to Me 
+              <FlagContents type={FlagTypeEnum.AssignedToMe} />
             </TabsContent>
           </Tabs>
         </div>
