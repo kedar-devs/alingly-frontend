@@ -94,7 +94,7 @@ function Register() {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
       <Toaster message={toaster.message} type={toaster.type} count={failedCount} />
-      <div className=" w-1/3 h-2/3 border rounded-md p-4 flex flex-col justify-center items-center gap-4 text-[#5bd787]">
+      <div className=" w-1/3 h-2/3 border rounded-xl p-4 flex flex-col justify-center items-center gap-4 text-[#5bd787]">
         <h1 className="text-4xl font-bold">Register</h1>
         <form className="flex flex-col gap-4 w-full h-full justify-between" onSubmit={handleGetUploadUrl}>
           <div className="flex flex-col gap-2">
