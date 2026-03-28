@@ -26,4 +26,10 @@ export enum UserRole {
     REVIEWER = "REVIEWER",
     VIEWER = "VIEWER",
     CONSULTANT = "CONSULTANT",
+    ALL = "ALL",
+
+}
+export interface AllowedRoles {
+    allowedRoles: UserRole[];
+    children: React.ReactNode;
 }

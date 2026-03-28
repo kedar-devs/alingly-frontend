@@ -4,6 +4,8 @@ import AppPaths from '../../routes/routes.constant'
 import { useLogoutUserMutation } from '../../components/auth/store/api/auth.api'
 import { useAuthStore } from '../../components/auth/store/auth.store'
 import { post_login_navigation, pre_login_navigation } from './navigator.constant'
+import { RiStackLine } from "react-icons/ri";
+
 
 
 export function HeadbarComponent() {
@@ -32,13 +34,14 @@ export function HeadbarComponent() {
   const isActive = (path: string) => location.pathname === path
 
   return (
-    <nav className="bg-[#000] w-full border-b border-gray-800 sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
+    <nav className="bg-[#fff] w-full border-b border-gray-50 sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
           <div className="flex-shrink-0">
-            <Link to={AppPaths.HOME} className="flex items-center">
-              <span className="text-2xl font-bold text-[#5bd787] hover:text-[#4ac775] transition-colors duration-200">
+            <Link to={AppPaths.HOME} className="flex items-center gap-x-2">
+            <RiStackLine className="text-2xl text-[#115fd4]" /> 
+              <span className="text-2xl font-bold text-[#115fd4] hover:text-[#4ac775] transition-colors duration-200">
                 Alignly
               </span>
             </Link>
@@ -58,8 +61,8 @@ export function HeadbarComponent() {
                   to={item.path as string}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                     isActive(item.path as string)
-                      ? 'bg-[#5bd787] text-black'
-                      : 'text-gray-300 hover:text-[#5bd787] hover:bg-gray-800'
+                      ? 'bg-[#115fd4] text-white'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-800'
                   }`
                 }
                 >

@@ -20,3 +20,8 @@ export interface Flag{
     ai_flag: string,
     ai_suggestion: string
 }
+
+export interface FlagDetailsType{
+    severity: FlagTypeEnum,
+    count: number,
+}

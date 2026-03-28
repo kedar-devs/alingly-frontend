@@ -112,7 +112,7 @@ function createOrganization() {
 
   }
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center">
       <div className=" w-1/3 h-2/3 border rounded-md p-4 flex flex-col items-center gap-4 text-[#5bd787]">
         <h1 className="text-4xl font-bold">Create Organization</h1>
         <form className="flex flex-col gap-4 w-full justify-between h-full" onSubmit={handleGetUploadUrl}>

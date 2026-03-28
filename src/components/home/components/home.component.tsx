@@ -1,21 +1,23 @@
-import { HeadbarComponent } from "../../../utils/navbar/headbar.component"
+import MainContentComponent from "./main_content.component"
+import TrustedByContent from "./trusted_by_content"
+import WorkingComponent from "./working.component"
+import RequestDemo from "./request_demo"
+import FooterComponent from "./footer.component"
+import { HeadbarComponent } from "@/utils/navbar/headbar.component"
+import { useGetHomeDataQuery } from "../store/api/home.api"
 
 function HomeComponent() {
+  
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
+    <div className="flex w-full min-h-screen flex-col">
       <HeadbarComponent />
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 w-full h-full">
-            <div className="flex flex-col items-center justify-center w-full h-full text-[#5bd787] gap-4">
-                <h1 className="text-6xl font-bold ">Alignly</h1>
-                <p className="text-sm">Alignly is a platform for aligning your business with your customers.</p>
-                <button className="bg-[#5bd787] text-black p-2 rounded-md cursor-pointer font-bold">Get Started</button>
-            
-            </div>
-            <div className="flex flex-col items-center justify-center w-full h-full">
-                <img src="/home-logo.jpg" alt="Alignly" className="w-full h-full object-cover" />
-            </div>
-        </div>
-
+      <div className=" flex flex-col w-full min-h-screen">
+        <MainContentComponent />
+        <TrustedByContent />
+        <WorkingComponent />
+        <RequestDemo />
+        <FooterComponent />
+      </div>
     </div>
   )
 }

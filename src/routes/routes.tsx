@@ -12,6 +12,10 @@ import ProjectLayout from '../components/project_home/components/project_layout'
 import RequirementDashboard from '../components/requirments/components/requirment_dashboard'
 import RequirementVersion from '@/components/requirments/components/requirment_version'
 import FlagCenter from '@/components/flags/components/flag_center'
+import Unautherised from '@/components/auth/rbac/unautherised'
+import { protectedRoutes } from './routes.constant'
+import { UserRole } from '@/components/auth/interfaces/user.interface'
+import { Permissions } from '@/components/auth/rbac/permissions'
 
 export const AppRoutes: React.FunctionComponent = () => {
     return (
@@ -20,15 +24,19 @@ export const AppRoutes: React.FunctionComponent = () => {
             <Route path={AppPaths.HOME} element={<HomeComponent />} />
             <Route path={AppPaths.LOGIN} element={<LoginComponent />} />
             <Route path={AppPaths.REGISTER} element={<RegisterComponent />} />
+            <Route path={AppPaths.UNAUTHORIZED} element={<Unautherised />} />
+
             <Route path={AppPaths.CREATE_ORGANIZATION} element={<CreateOrganizationComponent />} />
-            <Route element={<ProjectLayout />}>
-                <Route path={AppPaths.CREATE_PROJECT} element={<CreateProjectComponent />} />
-                <Route path={AppPaths.PROJECT_HOME} element={<ProjectHomeComponent />} />
-                <Route path={AppPaths.PROJECT_DASHBOARD} element={<ProjectDashboard />} />
-                <Route path={AppPaths.REQUIREMENT_PAGE} element={<RequirementPage />} />
-                <Route path={AppPaths.REQUIREMENT_DASHBOARD} element={<RequirementDashboard />} />
-                <Route path={AppPaths.REQUIREMENT_VERSION} element={<RequirementVersion />} />
-                <Route path={AppPaths.FLAG_MISALIGNED} element={<FlagCenter />} />
+            <Route element={
+                <Permissions allowedRoles={[UserRole.ALL]} >
+                <ProjectLayout />
+                </Permissions>
+                }>
+                {
+                    protectedRoutes.map((route) => (
+                        <Route key={route.route} path={route.route} element={<Permissions allowedRoles={route.allowedRoles} >{route.element}</Permissions>} />
+                    ))
+                }
             </Route>
         </Routes>
         </BrowserRouter>

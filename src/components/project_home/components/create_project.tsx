@@ -16,7 +16,7 @@ function CreateProject() {
     const navigate = useNavigate()
     const { mutate: createProject, isPending } = useCreateProjectMutation()
     if(!user) {
-      return <div className="flex items-center justify-center w-full h-full">You are not logged in</div>
+      return <div className="flex min-h-screen w-full items-center justify-center">You are not logged in</div>
   }
     const handleCreateProject = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -45,7 +45,7 @@ function CreateProject() {
 
       
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center">
       <div className=" w-1/3 border rounded-md p-4 flex flex-col items-center gap-4 text-[#5bd787]">
         <h1 className="text-4xl font-bold">Create Project</h1>
         <form className="flex flex-col gap-4 w-full justify-between h-full" onSubmit={handleCreateProject}>

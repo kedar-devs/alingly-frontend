@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { UserRole } from "../interfaces/user.interface";
 
 interface User {
     id: string;
@@ -7,7 +8,7 @@ interface User {
     name: string;
     email: string;
     password: string;
-    // role: string;
+    role: UserRole;
     created_at: string;
     updated_at: string;
 }
