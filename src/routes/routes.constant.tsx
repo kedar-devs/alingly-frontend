@@ -7,7 +7,7 @@ import RequirementDashboard from '../components/requirments/components/requirmen
 import RequirementVersion from '@/components/requirments/components/requirment_version'
 import FlagCenter from '@/components/flags/components/flag_center'
 
-type ProtectedRoutes = {
+export type ProtectedRoutes = {
     route: string;
     allowedRoles: UserRole[];
     element: React.ReactNode;

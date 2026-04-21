@@ -13,7 +13,7 @@ import RequirementDashboard from '../components/requirments/components/requirmen
 import RequirementVersion from '@/components/requirments/components/requirment_version'
 import FlagCenter from '@/components/flags/components/flag_center'
 import Unautherised from '@/components/auth/rbac/unautherised'
-import { protectedRoutes } from './routes.constant'
+import { protectedRoutes } from './routes.constant.tsx'
 import { UserRole } from '@/components/auth/interfaces/user.interface'
 import { Permissions } from '@/components/auth/rbac/permissions'
 

@@ -24,7 +24,7 @@ function CreateProject() {
     <div className="flex min-h-screen w-full flex-col items-center justify-center gap-y-4 bg-gray-50">
       <Toaster message={toaster.message} type={toaster.type} count={failedCount} />
       <h1 className="text-4xl font-bold uppercase flex gap-x-2"> <RiStackLine className="w-10 h-10 text-[#1877f2]" /> Alignly</h1>
-      <div className=" w-2/4 border rounded-md p-10 flex flex-col items-center gap-4 text-black bg-white gap-y-5 shadow-lg">
+      <div className=" w-2/4 min-h-4/5 max-h-4/5 border rounded-md p-10 flex flex-col items-center gap-4 text-black bg-white gap-y-5 shadow-lg">
         <Tabs defaultValue="project" value={activeTab} onValueChange={(value) => handleTabChange(value as "project" | "teams" | "integrations")}>
           <TabsList variant="line" className=" w-full">
             <TabsTrigger value="project">Details</TabsTrigger>
