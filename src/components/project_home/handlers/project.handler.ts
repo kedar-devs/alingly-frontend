@@ -2,6 +2,8 @@ import { shouldUseMockData } from "../../../core/config/app.config";
 import { projects } from "../mocks/project.mock";
 import type { Project } from "../interface/project.interface";
 import { projectApi } from "../store/api/project.api";
+import type { Stack } from "../interface/project.interface";
+import { stacks } from "../mocks/project.mock";
 
 export const projectHandler = {
     getProjects: async (): Promise<Project[]> => {
@@ -60,5 +62,22 @@ export const projectHandler = {
             console.error("Error fetching projects for organization:", error);
             throw error;
         }
-    }
+    },
+    getStacksHandler: async (search: string): Promise<Stack[]> => {
+        if (shouldUseMockData()) {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            console.warn("Using Mock Data for getStacksHandler");
+            if(search===""){
+                return stacks;
+            }
+            return stacks.filter((stack) => stack.name.toLowerCase().includes(search.toLowerCase()));
+        }
+        try{
+            const result = await projectApi.getStacks(search);
+            return result;
+        }catch(error){
+            console.error("Error fetching stacks:", error);
+            throw error;
+        }
+    },
 }

@@ -1,11 +1,17 @@
 import { UserRole } from "@/components/auth/interfaces/user.interface";
-import CreateProjectComponent from '../components/project_home/components/create_project'
+import CreateProjectComponent from '../components/project_home/components/create_project_components/create_project'
 import ProjectHomeComponent from '../components/project_home/components/project_home'
 import RequirementPage from '../components/requirments/components/requirment_page'
 import ProjectDashboard from '../components/project_home/components/project_dashboard'
 import RequirementDashboard from '../components/requirments/components/requirment_dashboard'
 import RequirementVersion from '@/components/requirments/components/requirment_version'
 import FlagCenter from '@/components/flags/components/flag_center'
+
+type ProtectedRoutes = {
+    route: string;
+    allowedRoles: UserRole[];
+    element: React.ReactNode;
+}
 
 const AppPaths = {
     HOME: '/',
@@ -29,10 +35,11 @@ const AppPaths = {
     FLAG_MISALIGNED: '/flag-misaligned/:requirementId',
 }
 
-export const protectedRoutes = [
+export const protectedRoutes: Array<ProtectedRoutes> = [
     {
         route: AppPaths.CREATE_PROJECT,
-        allowedRoles: [UserRole.ADMIN, UserRole.CONSULTANT],
+        // allowedRoles: [UserRole.ADMIN, UserRole.CONSULTANT],
+        allowedRoles: [UserRole.ALL],
         element: <CreateProjectComponent />
     },
     {

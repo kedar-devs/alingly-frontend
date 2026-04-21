@@ -2,6 +2,7 @@ import { customBaseQuery } from "../../../../core/store/base.query"
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query"
 import type { ProjectCreate,Project } from "../../interface/project.interface"
 import { projectHandler } from "../../handlers/project.handler"
+import type { Stack } from "../../interface/project.interface"
 
 export const projectApi = {
     createProject: async (params: ProjectCreate) => {
@@ -52,6 +53,14 @@ export const projectApi = {
         const result = await customBaseQuery<Project>({
             url: `/project/${id}`,
             method: 'delete',
+        })
+        return result.data;
+    },
+    getStacks: async (search: string) => {
+        const result = await customBaseQuery<Stack[]>({
+            url: `/stack/get-stacks`,
+            method: 'get',
+            params: { search },
         })
         return result.data;
     },
@@ -111,5 +120,13 @@ export const useDeleteProjectMutation = () => {
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['projects'] })
         },
+    })
+}
+export const useGetStacksQuery = (search: string) => {
+    return useQuery({
+        queryKey: ['stacks', search],
+        queryFn: () => projectHandler.getStacksHandler(search),
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        retry: 1
     })
 }

@@ -27,7 +27,7 @@ function ProjectHome() {
             navigate(AppPaths.CREATE_PROJECT)
             return
         }
-        navigate(`/project/${id}`)
+        navigate(`${AppPaths.PROJECT_DASHBOARD}/${id}`)
     }
 
     return (

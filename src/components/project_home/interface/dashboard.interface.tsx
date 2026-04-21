@@ -42,7 +42,7 @@ export type PendingAction = {
     name: string;
     avatarUrl?: string;
   };
-  dueDate: string; // ISO date string or relative time
+  dueDate: Date; // ISO date string or relative time
   priority: 'high' | 'medium' | 'low';
 }
 
@@ -54,7 +54,7 @@ export type ActivityItem = {
     name: string;
   };
   description: string;
-  timestamp: string; // ISO date string or relative time
+  timestamp: Date; // ISO date string or relative time
   link?: string; // optional link to related item
 }
 

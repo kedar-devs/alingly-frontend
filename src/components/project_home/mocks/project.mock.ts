@@ -1,4 +1,5 @@
 import type { Project } from "../interface/project.interface";
+import type { Stack } from "../interface/project.interface";
 
 export const projects: Project[] = [
   {
@@ -50,5 +51,38 @@ export const projects: Project[] = [
     requirements: ["req-15", "req-16", "req-17", "req-18"],
     created_at: "2025-01-18T11:30:00.000Z",
     updated_at: "2025-02-01T12:00:00.000Z",
+  },
+];
+
+export const stacks: Stack[] = [
+  {
+    id: "1",
+    name: "Slack",
+    description: "Real-time messaging and collaboration platform",
+    icon: "https://slack.com/img/icons/favicon-32x32.png",
+  },
+  {
+    id: "2",
+    name: "Google Workspace",
+    description: "Google's suite of productivity tools",
+    icon: "https://www.google.com/img/icons/favicon-32x32.png",
+  },
+  {
+    id: "3",
+    name: "Microsoft Teams",
+    description: "Microsoft's team collaboration platform",
+    icon: "https://teams.microsoft.com/img/favicon.ico",
+  },
+  {
+    id: "4",
+    name: "Jira",
+    description: "Jira is a project management tool",
+    icon: "https://www.atlassian.com/img/icons/favicon-32x32.png",
+  },
+  {
+    id: "5",
+    name: "Trello",
+    description: "Trello is a project management tool",
+    icon: "https://trello.com/img/favicon-32x32.png",
   },
 ];

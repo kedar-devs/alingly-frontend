@@ -1,20 +1,18 @@
 import { useState } from "react"
-import { useAuthStore } from "../../auth/store/auth.store"
-import { useCreateProjectMutation } from "../store/api/project.api"
-import { projectFormSchema } from "../form-validation/project.form"
+import { useAuthStore } from "../../../auth/store/auth.store"
+import { useCreateProjectMutation } from "../../store/api/project.api"
+import { projectFormSchema } from "../../form-validation/project.form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import {z} from "zod"
-import { useNavigate } from "react-router-dom"
-import AppPaths from "../../../routes/routes.constant"
-import Toaster from "../../../utils/toaster/toaster"
-import { RiStackLine } from "react-icons/ri"
 
-function CreateProject() {
+import type{ ProjectFormProps } from "../../interface/project.interface"
+import Toaster from "../../../../utils/toaster/toaster"
+
+function ProjectForm({projectSaved, projectError}: ProjectFormProps) {
     const [failedCount, setFailedCount] = useState<number>(0)
     const [toaster, setToaster] = useState<{message: string, type: 'success' | 'error' | 'custom'}>({message: '', type: 'success'})
     const { user } = useAuthStore()
-    const navigate = useNavigate()
     const { mutate: createProject, isPending } = useCreateProjectMutation()
     const { register, handleSubmit, formState: { errors } } = useForm<ProjectFormData>({
         resolver: zodResolver(projectFormSchema),
@@ -23,7 +21,7 @@ function CreateProject() {
     const handleCreateProject = (data: ProjectFormData) => {
         createProject({ name: data.name, description: data.description, organization_id: user?.organization_id || '', user_id: user?.id || '' },{
             onSuccess: () => {
-                navigate(AppPaths.PROJECT_HOME)
+                projectSaved()
             },
             onError: (error) => {
                 setFailedCount(prev=>prev+1)
@@ -32,17 +30,15 @@ function CreateProject() {
                     return
                 }
                 setToaster({message: 'Failed to create project', type: 'error'})
+                projectError(error)
             }
+           
         })
 
     }
-
-      
-  return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-y-4 bg-gray-50">
-      <Toaster message={toaster.message} type={toaster.type} count={failedCount} />
-      <h1 className="text-4xl font-bold uppercase flex gap-x-2"> <RiStackLine className="w-10 h-10 text-[#1877f2]" /> Alignly</h1>
-      <div className=" w-1/3 border rounded-md p-10 flex flex-col items-center gap-4 text-black bg-white gap-y-5 shadow-lg">
+    return (
+        <div className=" w-full h-full flex flex-col items-center justify-center gap-y-5">
+        <Toaster message={toaster.message} type={toaster.type} count={failedCount} />
         <h1 className="text-2xl font-bold capitalize">Create new Project</h1>
         <p className="text-sm text-gray-500">Create a new project to get started, setup your project and start collaborating with your team.</p>
         <form className="flex flex-col gap-4 w-full justify-between h-full bg-white" onSubmit={handleSubmit(handleCreateProject)}>
@@ -55,7 +51,7 @@ function CreateProject() {
             <div className="flex flex-col gap-2">
               <label className="text-md capitalize font-semibold">Organization</label>
               <input type="text" placeholder="Enter Organization" className="border rounded-md p-2 bg-gray-100" required />
-              {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+              {errors.organization && <p className="text-red-500 text-sm">{errors.organization.message}</p>}
             </div>
 
             <div className="flex flex-col gap-2">
@@ -66,9 +62,8 @@ function CreateProject() {
             <button type="submit" className="bg-[#1877f2] text-white p-2 rounded-md cursor-pointer font-bold" disabled={isPending}>{isPending ? 'Creating project...' : 'Create Project'}</button>
           </div>
         </form>
-      </div>
-    </div>
-  )
+        </div>
+    )
 }
 
-export default CreateProject
+export default ProjectForm

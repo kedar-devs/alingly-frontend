@@ -100,7 +100,7 @@ export const mockDashboardData: DashboardData = {
         name: "Sarah M.",
         avatarUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuBqQL5gysajLo_tMbYWXIpAPEIhm_hQUEYBmgnNb60C7-05VX8xBJVBtu2ARMkqR7jThzkOhD5YzuJG3l-By9t4fP0hW7N3jXhf2fS6DjeR4dww8ZJtBCHdqZSW3626PT3R9OCQoYSpeCGd6wtksJOFhojjIC2gC8KhOZwn5P-Yo0UTL2Wo4D3-al09ntL9oicSKNvRRqxRd5AqHhKUNXMDAR5RMDLHSefRJIFlN2-4OP34PCQMqxOFPGNpv4sn1SZDm2AusjmRHb9Z",
       },
-      dueDate: "Due in 2h",
+      dueDate: new Date(),
       priority: "high",
     },
     {
@@ -111,7 +111,7 @@ export const mockDashboardData: DashboardData = {
         name: "David Chen",
         avatarUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuDkoovw_atdQwn4wQRj_ljiVs-OVKD4lig_3Q-HkMZ8YfilLgWfNFqidVo0GzJqszmWC6LEaH3cZYe8B06w4S5dVwgqZEbVmxaDUORvgo9O1veMBxQvV-YiIwcsusgxqlaCru2Fi6dnTVIFH5HIkvEKbGd9yYNSkAFJkG7W53k-X4wQtO7Mgzx1OYPnJuPM4Mgrl-XCCBQMtFkPwoysm8fsudwOgZ8QsLL88XqYPW1ThvK8XO5PRP1VQJk9LOfKpQdJh0z8Ql-fF8gB",
       },
-      dueDate: "Due Today",
+      dueDate: new Date(),
       priority: "medium",
     },
     {
@@ -121,7 +121,7 @@ export const mockDashboardData: DashboardData = {
         id: "3",
         name: "Marcus Sterling",
       },
-      dueDate: "Tomorrow, 10:00 AM",
+      dueDate: new Date(),
       priority: "low",
     },
     {
@@ -132,7 +132,7 @@ export const mockDashboardData: DashboardData = {
         name: "Emily Johnson",
         avatarUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuAKUck3uhvf2EwIPgD37iWzD2qtU16NUzoHYcLngWoxH-ensW30Mlk6igZoV-I6r1M5g4WyXUZGSrCDQTre8a6REsMBh19CGl20gi6FNGAGX7rY3JYoQQUMvVkFYmXw0RsTS2nqBNoTpVF3Lkqne6kcPUzzbpmrN-R2mlzlm3b03eJ6EUwC4yT55dcip1gooSe3J5HSqLQz9u_4QQOjAaoFAerjO_bGDYjdTO7rieSZQudsOEBVVWxY-TRzE5onCo8kxBhshtZvL30D",
       },
-      dueDate: "Oct 24",
+      dueDate: new Date(),
       priority: "low",
     },
   ],
@@ -145,7 +145,7 @@ export const mockDashboardData: DashboardData = {
         name: "Sarah M.",
       },
       description: "commented on Security Specs",
-      timestamp: "12 minutes ago",
+      timestamp: new Date(),
       link: "Security Specs",
     },
     {
@@ -156,7 +156,7 @@ export const mockDashboardData: DashboardData = {
         name: "System",
       },
       description: "Project Alpha reached 90% alignment",
-      timestamp: "2 hours ago",
+      timestamp: new Date(),
     },
     {
       id: "3",
@@ -166,7 +166,7 @@ export const mockDashboardData: DashboardData = {
         name: "David Chen",
       },
       description: "uploaded ER Diagram v2.4",
-      timestamp: "4 hours ago",
+      timestamp: new Date(),
       link: "ER Diagram v2.4",
     },
     {
@@ -177,7 +177,7 @@ export const mockDashboardData: DashboardData = {
         name: "System",
       },
       description: "Requirement #1240 marked as Requires Update",
-      timestamp: "Yesterday at 5:42 PM",
+      timestamp: new Date(),
     },
   ],
   misalignmentsCount: 12,

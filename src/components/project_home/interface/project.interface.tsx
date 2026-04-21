@@ -1,3 +1,6 @@
+import type { UserRole } from "@/components/auth/interfaces/user.interface";
+import type { User } from "@/components/auth/interfaces/user.interface";
+
 export type Project={
     id: string;
     name: string;
@@ -9,6 +12,16 @@ export type Project={
     updated_at: string;
 }
 
+export type TeamMember={
+    email: string;
+    role: UserRole;
+
+}
+export type ProjectFormProps={
+    projectSaved: () => void;
+    projectError: (error: any) => void;
+    user: User | null;
+}
 export type ProjectCreate={
     name: string;
     description: string;    
@@ -20,4 +33,10 @@ export type ProjectCard={
     project_id:string,
     name:string,
     description:string,
+}
+export type Stack={
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
 }
