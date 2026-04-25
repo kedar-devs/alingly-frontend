@@ -1,12 +1,26 @@
 import { useDebounce } from "../../../../utils/helper/helper"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useGetStacksQuery } from "../../store/api/project.api"
 import { Loader2 } from "lucide-react"
+import AppPaths from "../../../../routes/routes.constant"
 
 function Intigration() {
     const [search, setSearch] = useState<string>('')
     const debouncedSearch = useDebounce(search, 500)
     const { data: stacks, isLoading, error } = useGetStacksQuery(debouncedSearch)
+    const [selectedStacks, setSelectedStacks] = useState<string[]>([])
+    const navigate = useNavigate()
+
+    const handleFinishAndLaunchProject = () => {
+        navigate(AppPaths.PROJECT_DASHBOARD.replace(':projectId', '0'))
+    }
+    const handleSelectStack = (stack: string) => {
+        setSelectedStacks([...selectedStacks, stack])
+    }
+    const handleUnselectStack = (stack: string) => {
+        setSelectedStacks(selectedStacks.filter((s) => s !== stack))
+    }
     return (
         <div className=" w-full h-full flex flex-col  gap-y-5 p-10">
             <div className=" w-full h-1/5 flex justify-between items-center">
@@ -38,8 +52,8 @@ function Intigration() {
                 ))}
                 </div>
                 <div className=" w-full flex ">
-                    <button className="bg-[#1877f2] text-white py-2 px-4 rounded-md cursor-pointer font-bold ml-auto">Finish & Launch Project</button>
-                </div>
+                <button className="bg-[#1877f2] text-white py-2 px-4 rounded-md cursor-pointer font-bold ml-auto" onClick={handleFinishAndLaunchProject}>Finish & Launch Project</button>
+            </div>
             </div>}
             
         </div>

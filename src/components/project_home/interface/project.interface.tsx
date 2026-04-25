@@ -1,6 +1,11 @@
 import type { UserRole } from "@/components/auth/interfaces/user.interface";
 import type { User } from "@/components/auth/interfaces/user.interface";
 
+export enum ProjectStatus {
+    ACTIVE = "active",
+    ARCHIVED = "archived",
+}
+
 export type Project={
     id: string;
     name: string;
@@ -8,6 +13,7 @@ export type Project={
     organization_id: string;
     users: string[];
     requirements: string[];
+    status: ProjectStatus;
     created_at: string;
     updated_at: string;
 }
@@ -17,6 +23,8 @@ export type TeamMember={
     role: UserRole;
 
 }
+
+
 export type ProjectFormProps={
     projectSaved: () => void;
     projectError: (error: any) => void;

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useGetProjectsForUserQuery } from "../store/api/project.api"
 import { useAuthStore } from "../../auth/store/auth.store"
 import { useNavigate } from "react-router-dom"
@@ -7,12 +7,19 @@ import ProjectTable from "./project_table"
 import AppPaths from "../../../routes/routes.constant"
 import { MdAddCircle } from "react-icons/md"
 import { MdViewModule, MdTableRows } from "react-icons/md"
+import type { Project, ProjectCard } from "../interface/project.interface"
+import { ProjectStatus } from "../interface/project.interface"
 
 type ViewTab = "table" | "cards"
 
+
 function ProjectHome() {
     const [activeTab, setActiveTab] = useState<ViewTab>("table")
+    const [filteredProjects, setFilteredProjects] = useState<Project[]>([])
+    const [FilteredProjectCards, setFilteredProjectCards] = useState<ProjectCard[]>([])
     const { user } = useAuthStore()
+    const [activeFilter, setActiveFilter] = useState<string>("all")
+
     const { data: projects, isLoading, error } = useGetProjectsForUserQuery(user?.id || "user-1")
     const navigate = useNavigate()
 
@@ -22,12 +29,26 @@ function ProjectHome() {
         description: project.description,
     }))
 
-    const navigateToProject = (id: string) => {
-        if (id === "0") {
-            navigate(AppPaths.CREATE_PROJECT)
-            return
+    useEffect(() => {
+        const filteredProjects = handleProjectFilter(activeFilter)
+        const filteredProjectCards = filteredProjects?.map((project) => ({
+            project_id: project.id,
+            name: project.name,
+            description: project.description,
+        }))
+        setFilteredProjects(filteredProjects ?? [])
+        setFilteredProjectCards(filteredProjectCards ?? [])
+    }, [activeFilter])
+
+    const handleProjectFilter = (filter: string) => {
+        switch (filter) {
+            case "all":
+                return projects ?? []
+            case "active":
+                return projects?.filter((project) => project.status === ProjectStatus.ACTIVE) ?? []
+            case "archived":
+                return projects?.filter((project) => project.status === ProjectStatus.ARCHIVED) ?? []
         }
-        navigate(`${AppPaths.PROJECT_DASHBOARD}/${id}`)
     }
 
     return (
@@ -39,21 +60,32 @@ function ProjectHome() {
                 </div>
                 <div className="w-1/2 flex items-end justify-end ml-auto">
                     <button
-                        className="bg-[#5bd787] text-black p-2 rounded-md cursor-pointer font-bold flex flex-row items-center justify-center gap-2"
-                        onClick={() => navigateToProject("0")}
+                        className="bg-[#1877f2] text-white py-2 px-4 rounded-md cursor-pointer font-bold flex flex-row items-center justify-center gap-2"
+                        onClick={() => navigate(AppPaths.CREATE_PROJECT)}
                     >
                         <MdAddCircle className="text-lg" />
-                        Create Project
+                         New Project
                     </button>
                 </div>
             </div>
+            <div className="w-full flex flex-row items-start border-b-2 border-gray-200 gap-x-4 mt-4">
+                <button type="button" className={` flex items-center gap-2 px-4 py-2.5 text-sm font-bold rounded-t-md transition-colors ${activeFilter === "all" ? "bg-gray-100 text-[#1877f2] border-b-0 border-[#1877f2] -mb-px" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"}`} onClick={() => setActiveFilter("all")}>
+                    All Projects
+                </button>
+                <button type="button" className={` flex items-center gap-2 px-4 py-2.5 text-sm font-bold rounded-t-md transition-colors ${activeFilter === "active" ? "bg-gray-100 text-[#1877f2] border-b-0 border-[#1877f2] -mb-px" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"}`} onClick={() => setActiveFilter("active")}> 
+                    Active Projects    
+                </button>
+                <button type="button" className={` flex items-center gap-2 px-4 py-2.5 text-sm font-bold rounded-t-md transition-colors ${activeFilter === "archived" ? "bg-gray-100 text-[#1877f2] border-b-0 border-[#1877f2] -mb-px" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"}`} onClick={() => setActiveFilter("archived")}>
+                    Archived Projects
+                </button>
+            </div>
 
-            <div className="mt-6 flex gap-1 border-b border-gray-200">
+            <div className="mt-4 flex gap-1 border border-gray-200 bg-white rounded-md p-2">
                 <button
                     type="button"
                     className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-t-md transition-colors ${
                         activeTab === "table"
-                            ? "bg-gray-100 text-[#5bd787] border-b-2 border-[#5bd787] -mb-px"
+                            ? "bg-gray-100 text-[#1877f2] border-b-0 border-[#1877f2] -mb-px"
                             : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                     }`}
                     onClick={() => setActiveTab("table")}
@@ -65,7 +97,7 @@ function ProjectHome() {
                     type="button"
                     className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-t-md transition-colors ${
                         activeTab === "cards"
-                            ? "bg-gray-100 text-[#5bd787] border-b-2 border-[#5bd787] -mb-px"
+                            ? "bg-gray-100 text-[#1877f2] border-b-0 border-[#1877f2] -mb-px"
                             : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                     }`}
                     onClick={() => setActiveTab("cards")}
@@ -84,17 +116,17 @@ function ProjectHome() {
                 )}
                 {!isLoading && !error && activeTab === "table" && (
                     <ProjectTable
-                        data={projects ?? []}
-                        onVisitProject={navigateToProject}
+                        data={filteredProjects ?? []}
+                        onVisitProject={(id) => navigate(`${AppPaths.PROJECT_DASHBOARD}/${id}`)}
                     />
                 )}
                 {!isLoading && !error && activeTab === "cards" && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {projectCards.map((card) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 p-5">
+                        {FilteredProjectCards.map((card) => (
                             <ProjectDataCard
                                 key={card.project_id}
                                 projectCard={card}
-                                onVisit={navigateToProject}
+                                onVisit={(id) => navigate(`${AppPaths.PROJECT_DASHBOARD}/${id}`)}
                             />
                         ))}
                     </div>

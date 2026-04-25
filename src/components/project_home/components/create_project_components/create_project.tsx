@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useAuthStore } from "../../../auth/store/auth.store"
-import { useNavigate } from "react-router-dom"
 
 import Toaster from "../../../../utils/toaster/toaster"
 import { RiStackLine } from "react-icons/ri"
@@ -14,7 +13,6 @@ function CreateProject() {
     const [toaster, setToaster] = useState<{message: string, type: 'success' | 'error' | 'custom'}>({message: '', type: 'success'})
     const [activeTab, setActiveTab] = useState<"project" | "teams" | "integrations">('project')
     const { user } = useAuthStore()
-    const navigate = useNavigate()
     const handleTabChange = (value: "project" | "teams" | "integrations") => {
         setActiveTab(value)
     }
