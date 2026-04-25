@@ -1,4 +1,4 @@
-import { formatDistanceToNow } from "date-fns"
+import { format, formatDistanceToNow } from "date-fns"
 // Helper function to format relative time
 export const formatRelativeTime = (timestamp: string|Date): string => {
     return formatDistanceToNow(new Date(timestamp),{
@@ -6,3 +6,6 @@ export const formatRelativeTime = (timestamp: string|Date): string => {
     })
   };
   
+export const formatDate = (timestamp: string|Date): string => {
+    return format(new Date(timestamp), "MM/dd/yyyy")
+  };
